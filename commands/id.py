@@ -14,7 +14,7 @@ class Player(commands.Cog):
         # Check if the user has any of the specified roles
         if not any(role.id in {self.superuser, self.adminrole, self.modrole} for role in ctx.author.roles):
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="Insufficient Permissions. You need one of the specified roles to use this command.",
                 color=0xFF0000,
             )
@@ -25,7 +25,7 @@ class Player(commands.Cog):
         player_data = get_player_data(member.id)
         if player_data is None:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="That user does not have a valid entry in the database.",
                 color=0xFF0000,
             )

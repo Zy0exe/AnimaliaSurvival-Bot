@@ -14,7 +14,7 @@ class warn_player(commands.Cog):
 
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="Insufficient Permissions. You need the required roles to use this command.",
                 color=0xFF0000,
             )
@@ -23,7 +23,7 @@ class warn_player(commands.Cog):
 
         if player is None:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="You need to specify a player to warn!",
                 color=0x2ECC71,
             )
@@ -31,7 +31,7 @@ class warn_player(commands.Cog):
 
         if player == ctx.author:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="You cannot warn yourself",
                 color=0x2ECC71,
             )
@@ -39,7 +39,7 @@ class warn_player(commands.Cog):
 
         if reason is None:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="You need to specify a reason for the warning!",
                 color=0x2ECC71,
             )
@@ -52,7 +52,7 @@ class warn_player(commands.Cog):
             banned_players = [line.strip() for line in f.readlines()]
         if str(player.id) in banned_players:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"{player.mention} is already banned!",
                 color=0x2ECC71,
             )
@@ -73,7 +73,7 @@ class warn_player(commands.Cog):
         # Check if the player has reached the warning limit
         if num_warnings >= 3:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"{player.mention} has reached the maximum number of warnings! They will now receive a strike.",
                 color=0xE74C3C,  # Red color
             )
@@ -82,7 +82,7 @@ class warn_player(commands.Cog):
             db.commit()
         else:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"{player.mention} has been warned | Reason: {reason}. They now have {3 - num_warnings} warning(s) remaining.",
                 color=0x2ECC71,
             )

@@ -51,7 +51,7 @@ class Pay(commands.Cog):
         # Check if the amount is valid
         if amount <= 0:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="The amount must be greater than 0.",
                 color=0xFF0000,
             )
@@ -62,7 +62,7 @@ class Pay(commands.Cog):
         sender_data = get_player_data(ctx.author.id)
         if sender_data is None or sender_data["coins"] < amount:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="You do not have enough coins to complete this transaction.",
                 color=0xFF0000,
             )
@@ -97,7 +97,7 @@ class Pay(commands.Cog):
 
         # Send a confirmation message
         embed = discord.Embed(
-            title="Reborn Legends 🤖",
+            title="Animalia Survial 🤖",
             description=f"You paid {member.mention} {amount} coins.",
             color=0x00FF00,
         )
@@ -107,21 +107,21 @@ class Pay(commands.Cog):
     async def pay_error(self, ctx, error):
         if isinstance(error, commands.BadArgument):
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="Please mention a valid user.",
                 color=0xFF0000,
             )
             await ctx.send(embed=embed)
         elif isinstance(error, commands.MissingRequiredArgument):
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="Please use the command correctly: !pay {user} {amount}",
                 color=0xFF0000,
             )
             await ctx.send(embed=embed)
         else:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"An error occurred: {str(error)}",
                 color=0xFF0000,
             )

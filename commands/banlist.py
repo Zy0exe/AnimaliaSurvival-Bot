@@ -62,7 +62,7 @@ class banlist(commands.Cog):
 
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="Insufficient Permissions. You need the required roles to use this command.",
                 color=0xFF0000,
             )
@@ -72,7 +72,7 @@ class banlist(commands.Cog):
         allowed_channel_id = 1183107878924583064  # Replace with the actual ID of the allowed channel
         if ctx.channel.id != allowed_channel_id:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="This command can only be used in the specified text channel.",
                 color=0xFF0000,
             )

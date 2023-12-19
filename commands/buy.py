@@ -10,7 +10,7 @@ class buy(commands.Cog):
     async def buy(self, ctx, animal=None, gender=None):
         if animal is None:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="You need to specify an animal to buy.",
                 color=0xFF0000,
             )
@@ -20,7 +20,7 @@ class buy(commands.Cog):
         # Check if the animal exists
         if animal not in animals:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"{ctx.author.mention}, that animal does not exist.",
                 color=0xFF0000,
             )
@@ -31,7 +31,7 @@ class buy(commands.Cog):
         # Check if the player has linked their Steam ID
         if player_data is None or player_data["steam_id"] is None:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"{ctx.author.mention}, you need to link your Steam ID first using the !link command.",
                 color=0xFF0000,
             )
@@ -51,7 +51,7 @@ class buy(commands.Cog):
             print(f"DEBUG: {ctx.author} does not have enough coins to buy {animal}.")
             print(f"DEBUG: {ctx.author} has {player_coins} coins, but needs {price} coins.")
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"{ctx.author.mention}, you don't have enough coins to buy this animal.",
                 color=0xFF0000,
             )
@@ -101,7 +101,7 @@ class buy(commands.Cog):
         db.commit()
 
         embed = discord.Embed(
-            title="Reborn Legends 🤖",
+            title="Animalia Survial 🤖",
             description=f"{ctx.author.mention}, you have bought a {gender} {animal} for {price} coins.",
             color=0x00FF00,
         )

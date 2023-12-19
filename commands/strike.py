@@ -13,7 +13,7 @@ class strike_player(commands.Cog):
         # Check if the user invoking the command has the required permissions
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="Insufficient Permissions. You need the required roles to use this command.",
                 color=0xFF0000,
             )

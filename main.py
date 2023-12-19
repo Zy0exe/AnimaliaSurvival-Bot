@@ -40,7 +40,7 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
         return
     embed = discord.Embed(
-        title="Reborn Legends 🤖",
+        title="Animalia Survial 🤖",
         description=f"An error occurred while running the command:\n\n{str(error)}",
         color=0xFF0000,
     )

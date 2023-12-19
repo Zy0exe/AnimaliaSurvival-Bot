@@ -12,7 +12,7 @@ class clearcage(commands.Cog):
 
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="Insufficient Permissions. You need the required roles to use this command.",
                 color=0xFF0000,
             )
@@ -22,14 +22,14 @@ class clearcage(commands.Cog):
         # Clear the player's animal inventory in the database
         if clear_player_animals(user.id):
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"{user.mention}'s animal inventory has been cleared!",
                 color=0xFF0000,
             )
             await ctx.send(embed=embed)
         else:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"{user.mention} needs to link their Steam ID first using the !link command.",
                 color=0xFF0000,
             )

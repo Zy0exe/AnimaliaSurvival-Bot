@@ -18,7 +18,7 @@ class cage(commands.Cog):
         player_data = get_player_data(ctx.author.id)
         if not player_data:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"{ctx.author.mention}, you need to link your Steam ID first using the !link command.",
                 color=0xFF0000,
             )
@@ -69,7 +69,7 @@ class cage(commands.Cog):
                 ) # add an empty field to separate rows
         else:
             inventory_embed.add_field(
-                name="Reborn Legends 🤖",
+                name="Animalia Survial 🤖",
                 value="You don't have any animals yet.",
                 inline=False,
             )

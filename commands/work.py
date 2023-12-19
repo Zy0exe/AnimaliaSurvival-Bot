@@ -14,7 +14,7 @@ class work(commands.Cog):
         # Check if the player has linked their Steam ID
         if player_data is None or player_data["steam_id"] is None:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"{ctx.author.mention}, you need to link your Steam ID first using the !link command.",
                 color=0xFF0000,
             )
@@ -52,7 +52,7 @@ class work(commands.Cog):
 
             # Send the command response with the updated user data
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"You earned {coins_earned} :coin:! Your new balance is {new_balance} :coin:.",
                 color=0x00FF00,
             )
@@ -64,7 +64,7 @@ class work(commands.Cog):
             hours, seconds = divmod(remaining_cooldown.total_seconds(), 3600)
             minutes = seconds / 60
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"You can use this command again in {int(hours)} hours and {int(minutes)} minutes.",
                 color=0xFF0000,
             )

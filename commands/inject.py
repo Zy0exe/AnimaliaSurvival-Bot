@@ -12,7 +12,7 @@ class inject(commands.Cog):
     async def inject(self, ctx, animal: str = None, gender: str = None, slot: int = None):
         if animal is None:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="You need to specify an animal to inject.",
                 color=0xFF0000,
             )
@@ -21,7 +21,7 @@ class inject(commands.Cog):
 
         if gender is None:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="You need to specify a gender for the animal.",
                 color=0xFF0000,
             )
@@ -30,7 +30,7 @@ class inject(commands.Cog):
 
         if slot is None:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="You need to specify a slot to inject the animal in.",
                 color=0xFF0000,
             )
@@ -49,7 +49,7 @@ class inject(commands.Cog):
         player_data = cursor.fetchone()
         if player_data is None or player_data[0] is None:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"{ctx.author.mention}, you need to link your Steam ID first using the !link command.",
                 color=0xFF0000,
             )
@@ -66,7 +66,7 @@ class inject(commands.Cog):
             except json.decoder.JSONDecodeError as e:
                 traceback.print_exc()
                 embed = discord.Embed(
-                    title="Reborn Legends 🤖",
+                    title="Animalia Survial 🤖",
                     description=f"{ctx.author.mention}, there was an error decoding your animal data. Please contact an administrator.",
                     color=0xFF0000,
                 )
@@ -114,7 +114,7 @@ class inject(commands.Cog):
         existing_file = os.path.join(player_folder, f"{steam_id}_{slot-1}.sav")
         if os.path.exists(existing_file):
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"The slot {slot} is already occupied. Do you want to proceed with the injection and lose your animal?",  # @Zyo fair point
                 color=0xFF0000,
             )
@@ -135,7 +135,7 @@ class inject(commands.Cog):
                 )
             except asyncio.TimeoutError:
                 embed = discord.Embed(
-                    title="Reborn Legends 🤖",
+                    title="Animalia Survial 🤖",
                     description="Confirmation timed out.",
                     color=0xFF0000,
                 )
@@ -144,7 +144,7 @@ class inject(commands.Cog):
 
             if str(reaction.emoji) == "❌":
                 embed = discord.Embed(
-                    title="Reborn Legends 🤖",
+                    title="Animalia Survial 🤖",
                     description="Injection canceled.",
                     color=0xFF0000,
                 )
@@ -185,7 +185,7 @@ class inject(commands.Cog):
         db.commit()
 
         embed = Embed(
-            title="Reborn Legends 🤖",
+            title="Animalia Survial 🤖",
             description=f"{ctx.author.mention} has injected a {animal} into the game using slot {slot}.",
             color=0x00FF00,
         )

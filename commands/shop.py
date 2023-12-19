@@ -60,7 +60,7 @@ class shop(commands.Cog):
 
         # Combine the shop message and ephemeral Note embed
         combined_embed = discord.Embed(
-            title="Reborn Legends 🤖", description=shop_message, color=0xf1c40f
+            title="Animalia Survial 🤖", description=shop_message, color=0xf1c40f
         )
         combined_embed.add_field(name="Your coins", value=f":coin:`{current_balance}`", inline=False)
 

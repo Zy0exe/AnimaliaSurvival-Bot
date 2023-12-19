@@ -12,7 +12,7 @@ class ainject(commands.Cog):
         # Check if the user has any of the specified roles
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="Insufficient Permissions. You need the required roles to use this command.",
                 color=0xFF0000,
             )
@@ -21,7 +21,7 @@ class ainject(commands.Cog):
         
         if animal is None:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="You need to specify an animal to inject.",
                 color=0xFF0000,
             )
@@ -30,7 +30,7 @@ class ainject(commands.Cog):
 
         if gender is None:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="You need to specify a gender for the animal.",
                 color=0xFF0000,
             )
@@ -39,7 +39,7 @@ class ainject(commands.Cog):
 
         if slot is None:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="You need to specify a slot to inject the animal in.",
                 color=0xFF0000,
             )
@@ -77,7 +77,7 @@ class ainject(commands.Cog):
 
         if os.path.exists(new_file_path):
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"The slot {slot} is already occupied. Do you want to proceed with the injection and overwrite the existing animal data?",
                 color=0xFF0000,
             )
@@ -98,7 +98,7 @@ class ainject(commands.Cog):
                 )
             except asyncio.TimeoutError:
                 embed = discord.Embed(
-                    title="Reborn Legends 🤖",
+                    title="Animalia Survial 🤖",
                     description="Confirmation timed out.",
                     color=0xFF0000,
                 )
@@ -107,7 +107,7 @@ class ainject(commands.Cog):
 
             if str(reaction.emoji) == "❌":
                 embed = discord.Embed(
-                    title="Reborn Legends 🤖",
+                    title="Animalia Survial 🤖",
                     description="Injection canceled.",
                     color=0xFF0000,
                 )
@@ -122,7 +122,7 @@ class ainject(commands.Cog):
             return
 
         embed = Embed(
-            title="Reborn Legends 🤖",
+            title="Animalia Survial 🤖",
             description=f"{animal} has been injected into the game for {user.mention} using slot {slot}.",
             color=0x00FF00,
         )

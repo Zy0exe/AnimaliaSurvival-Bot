@@ -13,7 +13,7 @@ class ban(commands.Cog):
         
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="Insufficient Permissions. You need the required roles to use this command.",
                 color=0xFF0000,
             )
@@ -24,7 +24,7 @@ class ban(commands.Cog):
         player_data = get_player_data(member.id)
         if player_data is None:
             embed = Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="That user does not have a valid entry in the database.",
                 color=0x00FF00,
             )
@@ -51,7 +51,7 @@ class ban(commands.Cog):
             with open("C:/Reborn Legends/animalia/AnimaliaSurvival/banlist.txt", "a") as f:
                 f.write(f"{player_data['steam_id']}\n")
                 embed = Embed(
-                    title="Reborn Legends 🤖",
+                    title="Animalia Survial 🤖",
                     description=f"{member.mention} has been banned from the game.",
                     color=0x00FF00,
                 )
@@ -60,7 +60,7 @@ class ban(commands.Cog):
         # Otherwise, cancel the ban
         else:
             embed = Embed(
-                    title="Reborn Legends 🤖",
+                    title="Animalia Survial 🤖",
                     description=f"{member.mention} has not been banned from the game.",
                     color=0x00FF00,
                 )

@@ -12,7 +12,7 @@ class RemoveAdmin(commands.Cog):
         # Check if the user has any of the specified roles
         if not any(role.id in {self.superuser} for role in ctx.author.roles):
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="Insufficient Permissions. You need the required roles to use this command.",
                 color=0xFF0000,
             )
@@ -22,7 +22,7 @@ class RemoveAdmin(commands.Cog):
         # Check if there is an actual discord id
         if discord_id is None:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="You need to provide a Discord ID to remove admin access.",
                 color=0xFF0000,
             )
@@ -50,14 +50,14 @@ class RemoveAdmin(commands.Cog):
         user = self.bot.get_user(discord_id)
         if user:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"Admin List {user.mention} has been removed from the admin list.",
                 color=0x2ECC71,
             )
             await ctx.send(embed=embed)
         else:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"User with ID {discord_id} has been removed from the admin list.",
                 color=0x2ECC71,
             )

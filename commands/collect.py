@@ -15,7 +15,7 @@ class collect(commands.Cog):
             player_data = get_player_data(ctx.author.id)
             if player_data is None or player_data.get("steam_id") is None:
                 embed = discord.Embed(
-                    title="Reborn Legends 🤖",
+                    title="Animalia Survial 🤖",
                     description="You do not exist or have not linked your Steam ID. Please use the !link command to link your Steam account.",
                     color=0xFF0000,
                 )
@@ -27,7 +27,7 @@ class collect(commands.Cog):
             retry_after = bucket.update_rate_limit()
             if retry_after:
                 embed = discord.Embed(
-                    title="Reborn Legends 🤖",
+                    title="Animalia Survial 🤖",
                     description=f"You can use this command again in {retry_after:.0f} seconds.",
                     color=0xFF0000,
                 )
@@ -53,7 +53,7 @@ class collect(commands.Cog):
             db.close()
 
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"You earned {coins_earned} :coin:! Your new balance is {new_balance} :coin:.",
                 color=0x00FF00,
             )
@@ -62,7 +62,7 @@ class collect(commands.Cog):
         except mysql.connector.Error as e:
             print(f"DEBUG: Error during database query: {e}")
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="An error occurred while processing your command. Please try again later.",
                 color=0xFF0000,
             )
@@ -72,7 +72,7 @@ class collect(commands.Cog):
     async def collect_error(self, ctx, error):
         if isinstance(error, commands.CommandOnCooldown):
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"You can use this command again in {error.retry_after:.0f} seconds.",
                 color=0xFF0000,
             )

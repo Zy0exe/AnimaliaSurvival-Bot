@@ -21,7 +21,7 @@ class coins(commands.Cog):
 
             # Send a message with the user's current balance
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"Your current balance is {current_balance} :coin:.",
                 color=0x00FF00,
             )
@@ -29,7 +29,7 @@ class coins(commands.Cog):
         except Exception as e:
             # If an error occurs, send a message with the error details
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"An error occurred while running the command:\n\n{str(e)}",
                 color=0xFF0000,
             )

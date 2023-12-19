@@ -12,7 +12,7 @@ class link(commands.Cog):
         
         if steam_id is None:
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="You need to enter a Steam ID!",
                 color=0xFF0000,
             )
@@ -22,7 +22,7 @@ class link(commands.Cog):
         # Check if steam_id is exactly 17 characters long
         if len(steam_id) != 17 or not steam_id.isdigit():
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="Invalid Steam ID format. Steam IDs must be exactly 17 digits long and contain only numbers.",
                 color=0xFF0000,
             )
@@ -41,7 +41,7 @@ class link(commands.Cog):
                 if len(players) == 0:
                     # No player data found for the provided Steam ID
                     embed = discord.Embed(
-                        title="Reborn Legends 🤖",
+                        title="Animalia Survial 🤖",
                         description="No Steam profile found for the provided Steam ID.",
                         color=0xFF0000,
                     )
@@ -55,7 +55,7 @@ class link(commands.Cog):
                     print(f"Provided Steam ID: {steam_id}")  # Debugging line
                     if actual_steam_id != steam_id:
                         embed = discord.Embed(
-                            title="Reborn Legends 🤖",
+                            title="Animalia Survial 🤖",
                             description="The Steam ID does not match a valid Steam account.",
                             color=0xFF0000,
                         )
@@ -109,7 +109,7 @@ class link(commands.Cog):
                                     db.commit()
 
                                     embed = discord.Embed(
-                                        title="Reborn Legends 🤖",
+                                        title="Animalia Survial 🤖",
                                         description="Your account has been successfully linked! You received 75,000 coins!",
                                         color=0x00FF00,
                                     )
@@ -128,7 +128,7 @@ class link(commands.Cog):
                                     await ctx.send(embed=embed)
                                 else:
                                     embed = discord.Embed(
-                                        title="Reborn Legends 🤖",
+                                        title="Animalia Survial 🤖",
                                         description="Your account is already linked or the Steam ID does not match.",
                                         color=0xFF0000,
                                     )
@@ -143,7 +143,7 @@ class link(commands.Cog):
                                 db.commit()
                                 
                                 embed = discord.Embed(
-                                    title="Reborn Legends 🤖",
+                                    title="Animalia Survial 🤖",
                                     description="Your account has been successfully linked! You received 75,000 coins!",
                                     color=0x00FF00,
                                 )
@@ -167,7 +167,7 @@ class link(commands.Cog):
                         elif str(reaction.emoji) == "❌":
                             print("Denial emoji selected")  # Debugging line
                             embed = discord.Embed(
-                                title="Reborn Legends 🤖",
+                                title="Animalia Survial 🤖",
                                 description="You denied the Steam profile confirmation.",
                                 color=0xFF0000,
                             )
@@ -177,7 +177,7 @@ class link(commands.Cog):
                         else:
                             print("Unknown emoji selected")  # Debugging line
                             embed = discord.Embed(
-                                title="Reborn Legends 🤖",
+                                title="Animalia Survial 🤖",
                                 description="Invalid reaction. Please try again.",
                                 color=0xFF0000,
                             )
@@ -186,7 +186,7 @@ class link(commands.Cog):
 
                     except asyncio.TimeoutError:
                         embed = discord.Embed(
-                            title="Reborn Legends 🤖",
+                            title="Animalia Survial 🤖",
                             description="Steam profile confirmation timed out. Please try again.",
                             color=0xFF0000,
                         )
@@ -195,7 +195,7 @@ class link(commands.Cog):
 
                 else:
                     embed = discord.Embed(
-                        title="Reborn Legends 🤖",
+                        title="Animalia Survial 🤖",
                         description="The Steam ID does not match a valid Steam account.",
                         color=0xFF0000,
                     )
@@ -205,7 +205,7 @@ class link(commands.Cog):
         except requests.exceptions.RequestException as e:
             # Handle network request errors
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="An error occurred while communicating with Steam servers.",
                 color=0xFF0000,
             )
@@ -213,7 +213,7 @@ class link(commands.Cog):
         except Exception as e:
             # Handle other errors
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description=f"Error: {str(e)}",
                 color=0xFF0000,
             )

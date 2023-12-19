@@ -12,7 +12,7 @@ class removecoins(commands.Cog):
         # Check if the user has any of the specified roles
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
             embed = discord.Embed(
-                title="Reborn Legends 🤖",
+                title="Animalia Survial 🤖",
                 description="Insufficient Permissions. You need the required roles to use this command.",
                 color=0xFF0000,
             )
@@ -46,7 +46,7 @@ class removecoins(commands.Cog):
 
         # Send the command response with the updated user data
         embed = discord.Embed(
-            title="Reborn Legends 🤖",
+            title="Animalia Survial 🤖",
             description=f"{amount} :coin: removed from {member.mention}'s balance. New balance is {player_data['coins']} :coin:.",
             color=0xFF0000,
         )
