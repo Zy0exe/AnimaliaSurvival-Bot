@@ -1,7 +1,7 @@
 # Animalia Bot
 
 ## Overview
-A discord bout that allows Staff to manage their server via commands, and players to have fun such has play roulette, buy/inject animals and win coins for staying in voice chats!
+A discord bot that allows Staff to manage their server via commands, and players to have fun such has play roulette, buy/inject animals and win coins for staying in voice chats!
 
 **YOU HAVE TO HOST THIS BOT YOURSELF**
 
