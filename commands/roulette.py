@@ -19,7 +19,7 @@ class Roulette(commands.Cog):
             return False
         return True
 
-    @commands.command(aliases=['rlt'])
+    @commands.hybrid_command(name="roulette", description="Play roulette!", with_app_command=True, aliases=['rlt'])
     async def roulette(self, ctx, bet_amount: int, bet_color: str):
         bet_color_lower = bet_color.lower()
 

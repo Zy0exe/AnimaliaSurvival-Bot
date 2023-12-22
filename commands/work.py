@@ -6,7 +6,7 @@ class work(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.hybrid_command(name="work", description="Get coins!", with_app_command=True)
     @commands.check(in_animal_shop)
     async def work(self, ctx):
         player_data = get_player_data(ctx.author.id)

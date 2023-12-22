@@ -9,7 +9,7 @@ class Player(commands.Cog):
         self.adminrole = int(os.getenv("ADMIN_ROLE_ID"))
         self.modrole = int(os.getenv("MOD_ROLE_ID"))
 
-    @commands.command(aliases=['id'])
+    @commands.hybrid_command(name="player", description="Shows Player Information", with_app_command=True, aliases=['id'])
     async def player(self, ctx, member: discord.Member):
         # Check if the user has any of the specified roles
         if not any(role.id in {self.superuser, self.adminrole, self.modrole} for role in ctx.author.roles):

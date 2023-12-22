@@ -5,7 +5,7 @@ class shop(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.hybrid_command(name="shop", description="Display Animal Shop", with_app_command=True)
     @commands.check(in_animal_shop)
     async def shop(self, ctx):
         # Create an ephemeral embed with Note and Genders information

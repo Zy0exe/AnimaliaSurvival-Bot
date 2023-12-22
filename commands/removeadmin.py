@@ -7,7 +7,7 @@ class RemoveAdmin(commands.Cog):
         self.superuser = int(os.getenv("SUPER_USER_ID"))
         self.adminlist_path = os.getenv("ADMINLIST_PATH")
 
-    @commands.command()
+    @commands.hybrid_command(name="removeadmin", description="Remove an admin from the Admin List", with_app_command=True)
     async def removeadmin(self, ctx, discord_id: int = None):
         # Check if the user has any of the specified roles
         if not any(role.id in {self.superuser} for role in ctx.author.roles):

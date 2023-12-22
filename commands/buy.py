@@ -6,7 +6,7 @@ class buy(commands.Cog):
         self.bot = bot
 
     @commands.check(in_animal_shop)
-    @commands.command()
+    @commands.hybrid_command(name="buy", description="Buy Animals from the shop", with_app_command=True)
     async def buy(self, ctx, animal=None, gender=None):
         if animal is None:
             embed = discord.Embed(

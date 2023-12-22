@@ -7,7 +7,7 @@ class strike_player(commands.Cog):
         self.superuser = int(os.getenv("SUPER_USER_ID"))
         self.adminrole = int(os.getenv("ADMIN_ROLE_ID"))
 
-    @commands.command(name="strike")
+    @commands.hybrid_command(name="strike_player", description="Display server information", with_app_command=True, aliases=['strike'])
     async def strike_player(self, ctx, player: discord.Member = None, *, reason: str = None):
         # Adds a strike to a player's record and bans them if they have 3 strikes.
         # Check if the user invoking the command has the required permissions

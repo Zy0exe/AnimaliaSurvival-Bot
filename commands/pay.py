@@ -45,7 +45,7 @@ class Pay(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.hybrid_command(name="pay", description="Pay coins to a user", with_app_command=True)
     @commands.check(in_animal_shop)
     async def pay(self, ctx, member: discord.Member, amount: int):
         # Check if the amount is valid

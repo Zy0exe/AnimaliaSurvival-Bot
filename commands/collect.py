@@ -6,7 +6,7 @@ class collect(commands.Cog):
         self.bot = bot
         self.collect_cooldown = commands.CooldownMapping.from_cooldown(1, 10800, commands.BucketType.user)
 
-    @commands.command()
+    @commands.hybrid_command(name="collect", description="work command for Vips", with_app_command=True)
     @commands.has_role(1101321118436036719)
     @commands.check(in_og_chan)
     async def collect(self, ctx):

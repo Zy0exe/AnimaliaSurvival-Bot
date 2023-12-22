@@ -7,7 +7,7 @@ class clearcage(commands.Cog):
         self.superuser = int(os.getenv("SUPER_USER_ID"))
         self.adminrole = int(os.getenv("ADMIN_ROLE_ID"))
 
-    @commands.command()
+    @commands.hybrid_command(name="clearcage", description="clears the cage of a player (Admin Only)", with_app_command=True)
     async def clearcage(self, ctx, user: discord.Member):
 
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):

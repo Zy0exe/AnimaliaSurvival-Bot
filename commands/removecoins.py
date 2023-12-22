@@ -7,7 +7,7 @@ class removecoins(commands.Cog):
         self.superuser = int(os.getenv("SUPER_USER_ID"))
         self.adminrole = int(os.getenv("ADMIN_ROLE_ID"))
 
-    @commands.command()
+    @commands.hybrid_command(name="removecoins", description="Remove coins from a user", with_app_command=True)
     async def removecoins(self, ctx, member: discord.Member, amount: int):
         # Check if the user has any of the specified roles
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):

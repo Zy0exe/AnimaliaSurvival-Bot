@@ -7,7 +7,7 @@ class ban(commands.Cog):
         self.superuser = int(os.getenv("SUPER_USER_ID"))
         self.adminrole = int(os.getenv("ADMIN_ROLE_ID"))
 
-    @commands.command()
+    @commands.hybrid_command(name="ban", description="Adds a user to the server ban list", with_app_command=True)
     @commands.check(in_animal_shop)
     async def ban(self, ctx, member: discord.Member):
         

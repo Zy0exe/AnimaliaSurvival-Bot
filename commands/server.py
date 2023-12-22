@@ -4,8 +4,10 @@ from import_lib import *
 class Server(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.servername = os.getenv("SERVER_NAME")
+        self.maxplayers = os.getenv("SERVER_MAX_PLAYERS")
 
-    @commands.command()
+    @commands.hybrid_command(name="server", description="Display server information", with_app_command=True, aliases=['sv', 'srv'])
     async def server(self, ctx):
         url = "https://topgameservers.net/api/serverdetails/82039495592270750886131005"
 
@@ -24,8 +26,8 @@ class Server(commands.Cog):
 
             if data.lower() == "offline":
                 # Server is offline
-                server_name = os.getenv(SERVER_NAME)
-                max_players = os.getenv(SERVER_MAX_PLAYERS)
+                server_name = self.servername
+                max_players = self.maxplayers
                 server_status = "Offline"
 
                 embed = discord.Embed(title="Server Information", color=discord.Color.red())

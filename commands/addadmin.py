@@ -7,7 +7,7 @@ class addadmin(commands.Cog):
         self.superuser = int(os.getenv("SUPER_USER_ID"))
         self.adminlist_path = os.getenv("ADMINLIST_PATH")
 
-    @commands.command()
+    @commands.hybrid_command(name="addadmin", description="Adds an admin to the Admin List", with_app_command=True)
     @commands.has_role(1101301737761030205)
     async def addadmin(self, ctx, discord_id: int = None):
         # Check if the user has permission to use the command

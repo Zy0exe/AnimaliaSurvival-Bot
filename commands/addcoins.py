@@ -7,7 +7,7 @@ class addcoins(commands.Cog):
         self.superuser = int(os.getenv("SUPER_USER_ID"))
         self.adminrole = int(os.getenv("ADMIN_ROLE_ID"))
 
-    @commands.command()
+    @commands.hybrid_command(name="addcoins", description="Adds coins to a specified user", with_app_command=True)
     async def addcoins(self, ctx, member: discord.Member = None, amount: int = 0):
         # Check if the user has any of the specified roles
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):

@@ -7,7 +7,7 @@ class inject(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.hybrid_command(name="inject", description="Inject an animal to a specified slot", with_app_command=True)
     @commands.check(in_animal_shop)
     async def inject(self, ctx, animal: str = None, gender: str = None, slot: int = None):
         if animal is None:

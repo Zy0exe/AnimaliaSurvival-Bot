@@ -57,7 +57,7 @@ class banlist(commands.Cog):
         else:
             print("The ban list is empty.")
 
-    @commands.command()
+    @commands.hybrid_command(name="banlist", description="Shows the banlist of the server", with_app_command=True)
     async def banlist(self, ctx):
 
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):

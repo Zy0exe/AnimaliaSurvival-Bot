@@ -22,7 +22,7 @@ class help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.hybrid_command(name="help", description="Shows list of commands", with_app_command=True)
     @commands.check(in_animal_shop)
     async def help(self, ctx):
         data = [
@@ -35,7 +35,7 @@ class help(commands.Cog):
             {"name": "!cage", "value": "Display your current balance and owned animals."},
         ]
 
-        admin_role_id = 1171364250770493450
+        admin_role_id = 1183103584330588180
         if discord.utils.get(ctx.author.roles, id=admin_role_id) is not None:
             admin_data = [
                 {"name": "!player", "value": "See your/other player info."},

@@ -12,7 +12,7 @@ class cage(commands.Cog):
         self.bot = bot
 
     @commands.check(in_animal_shop)
-    @commands.command()
+    @commands.hybrid_command(name="cage", description="Shows your cage", with_app_command=True)
     async def cage(self, ctx):
         # Retrieve player data from the database
         player_data = get_player_data(ctx.author.id)

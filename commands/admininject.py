@@ -7,7 +7,7 @@ class ainject(commands.Cog):
         self.superuser = int(os.getenv("SUPER_USER_ID"))
         self.adminrole = int(os.getenv("ADMIN_ROLE_ID"))
 
-    @commands.command()
+    @commands.hybrid_command(name="ainject", description="Allows Admins to Inject Animals for players.", with_app_command=True)
     async def ainject(self, ctx, user: discord.User, animal: str = None, gender: str = None, slot: int = None):
         # Check if the user has any of the specified roles
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):

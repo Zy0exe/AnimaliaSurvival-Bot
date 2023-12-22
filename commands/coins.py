@@ -5,7 +5,7 @@ class coins(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.hybrid_command(name="coins", description="Shows the amount of coins", with_app_command=True)
     @commands.check(in_animal_shop)
     async def coins(self, ctx):
         try:

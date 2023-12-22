@@ -5,8 +5,9 @@ class link(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.steam_api_key = os.getenv("STEAM_API_KEY")
+        self.coins_on_link = int(os.getenv("COINS_ON_ACC_LINK", 75000))
 
-    @commands.command()
+    @commands.hybrid_command(name="link", description="Link your steam account", with_app_command=True)
     @commands.check(in_animal_shop)
     async def link(self, ctx, steam_id: str = None):
         
@@ -104,7 +105,7 @@ class link(commands.Cog):
                                 if existing_steam_id == steam_id and coins_received == 0:
                                     # Update the database with the new Steam ID and set coins_received to 1
                                     cursor.execute(
-                                        "UPDATE players SET steam_id = %s, coins_received = 1, coins = 75000 WHERE discord_id = %s", (steam_id, discord_id)
+                                        "UPDATE players SET steam_id = %s, coins_received = 1, coins = {self.coins_on_link} WHERE discord_id = %s", (steam_id, discord_id)
                                     )
                                     db.commit()
 

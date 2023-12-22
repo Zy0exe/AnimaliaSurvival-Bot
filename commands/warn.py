@@ -9,7 +9,7 @@ class warn_player(commands.Cog):
         self.adminrole = int(os.getenv("ADMIN_ROLE_ID"))
         self.modrole   = int(os.getenv("MOD_ROLE_ID"))
 
-    @commands.command(name="warn")
+    @commands.hybrid_command(name="warn", description="Warn a user", with_app_command=True)
     async def warn_player(self, ctx, player: discord.Member = None, *, reason: str = None):
 
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
