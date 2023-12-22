@@ -1,6 +1,7 @@
 # Animalia Bot
 
 ## Overview
+<<<<<<< HEAD
 A discord bout that allows Staff to manage their server via commands, and players to have fun such has play roulette, buy/inject animals and win coins for staying in voice chats!
 
 **YOU HAVE TO HOST THIS BOT YOURSELF**
@@ -13,6 +14,18 @@ So basically i used to play the game and like many people wanted to make my own 
 ## FAQ
 **Q: Why Python?**
 
+=======
+A discord bot that allows Staff to manage their server via commands, and players to have fun such has play roulette, buy/inject animals and win coins for staying in voice chats!
+
+**YOU HAVE TO HOST THIS BOT YOURSELF**
+
+## Motivation
+So basically i used to play the game and like many people wanted to make my own server, at the time it required a lot of my time and my staff time in order to be able to get things solved, getting Growths etc. So i decided to make my own bot that would handle all of that and even more giving me some sort of way to compete with the big servers. So hopefully his will open doors for new servers!
+
+## FAQ
+**Q: Why Python?**
+
+>>>>>>> 22ebb2e8d87bcea2d84bf013359ecd903f3e29fd
 A: I had not used python in a while and given that python is pretty much forgotten by discord i wanted to make it more interesting / challanging for me.
 
 **Q: Does the bot have any malicious code?**
