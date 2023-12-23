@@ -5,9 +5,12 @@ class collect(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.collect_cooldown = commands.CooldownMapping.from_cooldown(1, 10800, commands.BucketType.user)
-
+        self.superuser = int(os.getenv("SUPER_USER_ID"))
+        self.adminrole = int(os.getenv("ADMIN_ROLE_ID"))
+        self.modrole   = int(os.getenv("MOD_ROLE_ID"))
+        self.viproleid = int(os.getenv("VIP_ROLE_ID"))
+        
     @commands.hybrid_command(name="collect", description="work command for Vips", with_app_command=True)
-    @commands.has_role(1101321118436036719)
     @commands.check(in_og_chan)
     async def collect(self, ctx):
         try:
@@ -17,6 +20,15 @@ class collect(commands.Cog):
                 embed = discord.Embed(
                     title="Animalia Survial 🤖",
                     description="You do not exist or have not linked your Steam ID. Please use the !link command to link your Steam account.",
+                    color=0xFF0000,
+                )
+                await ctx.send(embed=embed)
+                return
+
+            if not any(role.id in {self.superuser, self.adminrole, self.modrole, self.viproleid} for role in ctx.author.roles):
+                embed = discord.Embed(
+                    title="Animalia Survial 🤖",
+                    description="Insufficient Permissions. You need the required roles to use this command.",
                     color=0xFF0000,
                 )
                 await ctx.send(embed=embed)

@@ -6,7 +6,6 @@ class coins(commands.Cog):
         self.bot = bot
 
     @commands.hybrid_command(name="coins", description="Shows the amount of coins", with_app_command=True)
-    @commands.check(in_animal_shop)
     async def coins(self, ctx):
         try:
             # Get the user's balance from the database

@@ -19,7 +19,6 @@ class clearcage(commands.Cog):
             await ctx.send(embed=embed)
             return
         
-        # Clear the player's animal inventory in the database
         if clear_player_animals(user.id):
             embed = discord.Embed(
                 title="Animalia Survial 🤖",

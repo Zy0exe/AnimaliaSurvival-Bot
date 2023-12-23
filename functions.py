@@ -4,7 +4,7 @@ from import_lib import *
 animals = {
     "Lion": {
         "price": 30000,
-        "image": "<:lionm:1102545517398986812>",
+        "image": "",
         "slot": "1",
         "quantity": 0,
         "gender": "",
@@ -12,7 +12,7 @@ animals = {
     },
     "Croc": {
         "price": 25000,
-        "image": "<:Z_Croc:1102543258866958386>",
+        "image": "",
         "slot": "2",
         "quantity": 0,
         "gender": "",
@@ -20,7 +20,7 @@ animals = {
     },
     "Ele": {
         "price": 25000, 
-        "image": "<a:elephants:1102543255540867163>", 
+        "image": "", 
         "slot": "3", 
         "quantity": 0, 
         "gender": "",
@@ -28,7 +28,7 @@ animals = {
     },
     "Giraffe": {
         "price": 20000, 
-        "image": "<:raffe:1102543262109147196>", 
+        "image": "", 
         "slot": "4", 
         "quantity": 0, 
         "gender": "",
@@ -36,7 +36,7 @@ animals = {
     },
     "Hippo": {
         "price": 20000, 
-        "image": "<:hippo:1102543257575104584>", 
+        "image": "", 
         "slot": "5", 
         "quantity": 0, 
         "gender": "",
@@ -44,7 +44,7 @@ animals = {
     },
     "Hyena": {
         "price": 15000, 
-        "image": "<:hyena_awwo:1102543253288525844>", 
+        "image": "", 
         "slot": "6", 
         "quantity": 0, 
         "gender": "",
@@ -52,7 +52,7 @@ animals = {
     },
     "Leo": {
         "price": 20000, 
-        "image": "<:leopardk:1102543260016185486>", 
+        "image": "", 
         "slot": "7", 
         "quantity": 0, 
         "gender": "",
@@ -60,7 +60,7 @@ animals = {
     },
     "Meerkat": {
         "price": 3000, 
-        "image": "<:meerkat:1102546538842046484>", 
+        "image": "", 
         "slot": "8", 
         "quantity": 0, 
         "gender": "",
@@ -68,7 +68,7 @@ animals = {
     },
     "Rhino": {
         "price": 20000, 
-        "image": "<:Rhino:1102543251547897968>", 
+        "image": "", 
         "slot": "9", 
         "quantity": 0, 
         "gender": "",
@@ -76,7 +76,7 @@ animals = {
     },
     "WB": {
         "price": 15000, 
-        "image": "<:770291595232411678:1102543426718814248>", 
+        "image": "",  #<:wildbeest:1188049123165868042>
         "slot": "10", 
         "quantity": 0, 
         "gender": "",
@@ -84,7 +84,7 @@ animals = {
     },
     "Wilddog": {
         "price": 20000, 
-        "image": "<:WildDog:1102543249316519986>", 
+        "image": "", 
         "slot": "11", 
         "quantity": 0, 
         "gender": "",
@@ -92,7 +92,7 @@ animals = {
     },
     "Zebra": {
         "price": 15000, 
-        "image": "<:Zebra:1102543263258386492>", 
+        "image": "", 
         "slot": "12", 
         "quantity": 0, 
         "gender": "",
@@ -107,11 +107,11 @@ db = mysql.connector.connect(
 
 # Where the bot can be used
 def in_animal_shop(ctx):
-    return ctx.channel.name == "🤖︱ʙᴏᴛ-ᴄᴏᴍᴍᴀɴᴅs"
+    return ctx.channel.name == os.getenv("BOT_CHANNEL")
 
 # Where the bot can be used
 def in_og_chan(ctx):
-    return ctx.channel.name == "🤖︱ᴏɢ-ᴄᴏʟʟᴇᴄᴛ"
+    return ctx.channel.name == os.getenv("VIP_CHANNEL")
 
 # object hook
 def object_hook(d):

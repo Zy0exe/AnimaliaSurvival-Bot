@@ -61,8 +61,9 @@ class ainject(commands.Cog):
 
 
         # Inject the animal into the game using the specified slot
-        folder_name = "C:/Reborn Legends/animalia/AnimaliaSurvival/Saved/SaveGames/PlayerData/testLevel"
-        file_name = f"C:/Reborn Legends/animalia/AnimaliaSurvival/AnimaliaBot/AnimalTemplates/{animal}_{gender}.sav"
+        base_path = os.getenv("ANIMAL_TEMPLATES_PATH")
+        folder_name = os.path.join(os.getenv("SERVER_FOLDER_PATH"))
+        file_name = f"{base_path}{animal}_{gender}.sav"
         player_folder = os.path.join(folder_name, steam_id)
         new_file_name = f"{steam_id}_{slot-1}.sav"
         new_file_path = os.path.join(player_folder, new_file_name)

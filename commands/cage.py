@@ -48,9 +48,9 @@ class cage(commands.Cog):
                         for gender_data in data["genders"]:
                             gender = gender_data["gender"]
                             quantity = gender_data["quantity"]
-                            if gender == "M":
+                            if gender == "Male":
                                 males = quantity
-                            elif gender == "F":
+                            elif gender == "Female":
                                 females = quantity
                         inventory_embed.add_field(
                             name=f"{animal}{' ' * (25 - len(animal))}",

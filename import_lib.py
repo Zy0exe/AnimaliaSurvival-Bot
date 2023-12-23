@@ -30,7 +30,8 @@ import requests
 import time
 import signal
 import sys
-from typing import Literal, Optional
+import typing
+from typing import Literal, Optional, List
 
 # Command
 from commands.strike import strike_player

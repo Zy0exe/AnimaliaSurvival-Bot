@@ -1,3 +1,4 @@
+from commands.rcon import GameServer
 from import_lib import *
 
 # ENV
@@ -10,7 +11,7 @@ db = mysql.connector.connect(
     host="localhost", user="root", password="", database="reborn_legends"
 )
 
-bot = commands.Bot(command_prefix="!", help_command=None, intents=discord.Intents.all(), application_id=1100912113867825184)
+bot = commands.Bot(command_prefix=["!", "."], help_command=None, intents=discord.Intents.all(), application_id=1100912113867825184)
 
 async def load():
     for filename in os.listdir('./commands'):
@@ -21,12 +22,28 @@ async def load():
             except Exception as e:
                 print(f'{filename} could not be loaded. [{e}]')
 
+async def update_presence():
+    response = await GameServer(bot).rcon("PlayersCount")
+
+    player_count = response.split(":")[1].strip() if ":" in response else response
+    formatted_presence = f"/help | Players Online: {player_count}"
+
+    # Update bot's presence with the formatted string
+    await bot.change_presence(activity=discord.Game(name=formatted_presence))
+    print('Bot presence updated')
+
 async def main():
     await load()
     await bot.start(TOKEN)
 
+@tasks.loop(minutes=5)
+async def presence_update_task():
+    await update_presence()
+
+# Start the task when the bot is ready
+@bot.event
 async def on_ready():
-    await bot.change_presence(activity=discord.Game(name="/help"))
+    presence_update_task.start()
     print('Bot is Online!')
 
 async def on_disconnect():

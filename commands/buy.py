@@ -5,9 +5,45 @@ class buy(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+
+    async def animal_autocomplete(
+        self,
+        ctx,
+        current: str,
+    ) -> List[app_commands.Choice[str]]:
+        animals = ['Lion', 'Croc', 'Ele', 'Giraffe', 'Hippo', 'Hyena', 'Leo', 'Meerkat', 'Rhino', 'WB', 'Wilddog', 'Zebra']
+        return [
+            app_commands.Choice(name=animal, value=animal)
+            for animal in animals if current.lower() in animal.lower()
+        ]
+    
+    async def gender_autocomplete(
+        self,
+        ctx,
+        current: str,
+    ) -> List[app_commands.Choice[str]]:
+        genders = ['Male', 'Female']
+        return [
+            app_commands.Choice(name=gender, value=gender)
+            for gender in genders if current.lower() in gender.lower()
+        ]
+
     @commands.check(in_animal_shop)
     @commands.hybrid_command(name="buy", description="Buy Animals from the shop", with_app_command=True)
+    @app_commands.autocomplete(animal=animal_autocomplete)
+    @app_commands.autocomplete(gender=gender_autocomplete)
     async def buy(self, ctx, animal=None, gender=None):
+        player_data = get_player_data(ctx.author.id)
+        # Check if the player has linked their Steam ID
+        if player_data is None or player_data["steam_id"] is None:
+            embed = discord.Embed(
+                title="Animalia Survial 🤖",
+                description=f"{ctx.author.mention}, you need to link your Steam ID first using the !link command.",
+                color=0xFF0000,
+            )
+            await ctx.send(embed=embed)
+            return
+        
         if animal is None:
             embed = discord.Embed(
                 title="Animalia Survial 🤖",
@@ -22,17 +58,6 @@ class buy(commands.Cog):
             embed = discord.Embed(
                 title="Animalia Survial 🤖",
                 description=f"{ctx.author.mention}, that animal does not exist.",
-                color=0xFF0000,
-            )
-            await ctx.send(embed=embed)
-            return
-
-        player_data = get_player_data(ctx.author.id)
-        # Check if the player has linked their Steam ID
-        if player_data is None or player_data["steam_id"] is None:
-            embed = discord.Embed(
-                title="Animalia Survial 🤖",
-                description=f"{ctx.author.mention}, you need to link your Steam ID first using the !link command.",
                 color=0xFF0000,
             )
             await ctx.send(embed=embed)
@@ -102,7 +127,7 @@ class buy(commands.Cog):
 
         embed = discord.Embed(
             title="Animalia Survial 🤖",
-            description=f"{ctx.author.mention}, you have bought a {gender} {animal} for {price} coins.",
+            description=f"{ctx.author.mention}, you have bought a {gender} {animal} for {price} coins. Your remaining balance: {new_balance} coins.",
             color=0x00FF00,
         )
         await ctx.send(embed=embed)

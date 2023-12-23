@@ -18,12 +18,46 @@ class Roulette(commands.Cog):
             not_allowed_message = await ctx.send(embed=not_allowed_embed)
             return False
         return True
+    
+    async def betcolor_autocomplete(
+        self,
+        ctx,
+        current: str,
+    ) -> List[app_commands.Choice[str]]:
+        colours = ['Red', 'Black', 'Green']
+        return [
+            app_commands.Choice(name=bet_color, value=bet_color)
+            for bet_color in colours if current.lower() in bet_color.lower()
+        ]
+    
+    async def betamount_autocomplete(
+        self,
+        ctx,
+        current: str,
+    ) -> List[app_commands.Choice[str]]:
+        amounts = ['500', '1000', '2000', '3000', '4000', '5000', '6000', '7000', '8000', '9000', '10000']
+        return [
+            app_commands.Choice(name=bet_amount, value=bet_amount)
+            for bet_amount in amounts if current.lower() in bet_amount.lower()
+        ]
 
-    @commands.hybrid_command(name="roulette", description="Play roulette!", with_app_command=True, aliases=['rlt'])
+    @commands.hybrid_command(name="rlt", description="Play roulette!", with_app_command=True, aliases=['roulette'])
+    @app_commands.autocomplete(bet_amount=betamount_autocomplete)
+    @app_commands.autocomplete(bet_color=betcolor_autocomplete)
     async def roulette(self, ctx, bet_amount: int, bet_color: str):
         bet_color_lower = bet_color.lower()
 
         if not await self.check_channel(ctx):
+            return
+        
+        # Check if the bet amount is above 100
+        if bet_amount <= 100:
+            invalid_bet = discord.Embed(
+                title="Invalid Bet Amount",
+                description="You can only place bets above 100 coins.",
+                color=0xff0000
+            )
+            await ctx.send(embed=invalid_bet)
             return
 
         # Retrieve user data from your database or storage

@@ -8,26 +8,6 @@ class shop(commands.Cog):
     @commands.hybrid_command(name="shop", description="Display Animal Shop", with_app_command=True)
     @commands.check(in_animal_shop)
     async def shop(self, ctx):
-        # Create an ephemeral embed with Note and Genders information
-        note_embed = discord.Embed(
-            title="WARNING",
-            description="**The animal name *NEEDS* to be the exact same as its shown in the shop!**",
-            color=0xFF0000,
-        )
-        note_embed.add_field(
-            name="*Note*",
-            value="To purchase an animal, use the correct format:\nExample: !buy Lion M or !buy Lion F",
-        )
-        note_embed.add_field(
-            name="*Genders*",
-            value="M = Male, F = Female",
-            inline=False,
-        )
-
-        # Send the ephemeral Note embed
-        await ctx.send(embed=note_embed, ephemeral=True)
-
-        # Continue with the rest of the shop message
         db = mysql.connector.connect(
             host="localhost", user="root", password="", database="reborn_legends"
         )
