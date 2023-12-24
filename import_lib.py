@@ -31,7 +31,7 @@ import time
 import signal
 import sys
 import typing
-from typing import Literal, Optional, List
+from typing import Literal, Optional, List, Union
 
 # Command
 from commands.strike import strike_player

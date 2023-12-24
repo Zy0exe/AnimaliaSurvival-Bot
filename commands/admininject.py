@@ -7,7 +7,43 @@ class ainject(commands.Cog):
         self.superuser = int(os.getenv("SUPER_USER_ID"))
         self.adminrole = int(os.getenv("ADMIN_ROLE_ID"))
 
+    async def animal_autocomplete(
+        self,
+        ctx,
+        current: str,
+    ) -> List[app_commands.Choice[str]]:
+        animals = ['Lion', 'Croc', 'Ele', 'Giraffe', 'Hippo', 'Hyena', 'Leo', 'Meerkat', 'Rhino', 'WB', 'Wilddog', 'Zebra']
+        return [
+            app_commands.Choice(name=animal, value=animal)
+            for animal in animals if current.lower() in animal.lower()
+        ]
+    
+    async def gender_autocomplete(
+        self,
+        ctx,
+        current: str,
+    ) -> List[app_commands.Choice[str]]:
+        genders = ['Male', 'Female']
+        return [
+            app_commands.Choice(name=gender, value=gender)
+            for gender in genders if current.lower() in gender.lower()
+        ]
+    
+    async def slot_autocomplete(
+        self,
+        ctx,
+        current: str,
+    ) -> List[app_commands.Choice[str]]:
+        slots = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        return [
+            app_commands.Choice(name=slot, value=slot)
+            for slot in slots if current.lower() in slot.lower()
+        ]
+
     @commands.hybrid_command(name="ainject", description="Allows Admins to Inject Animals for players.", with_app_command=True)
+    @app_commands.autocomplete(animal=animal_autocomplete)
+    @app_commands.autocomplete(gender=gender_autocomplete)
+    @app_commands.autocomplete(slot=slot_autocomplete)
     async def ainject(self, ctx, user: discord.User, animal: str = None, gender: str = None, slot: int = None):
         # Check if the user has any of the specified roles
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):

@@ -259,5 +259,4 @@ def get_player_animals(discord_id):
 
     return player_animals
 
-# Create a cursor object to interact with the database
 cursor = db.cursor()

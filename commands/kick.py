@@ -2,7 +2,7 @@ from functions import *
 from import_lib import *
 from rcon import rcon
 
-class BanCog(commands.Cog):
+class KickCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.superuser = int(os.getenv("SUPER_USER_ID"))
@@ -11,10 +11,9 @@ class BanCog(commands.Cog):
         self.rcon_port = os.getenv("RCON_PORT")
         self.rcon_passwd = os.getenv("RCON_PW")
 
-    @commands.hybrid_command(name="ban", description="Adds a user to the server ban list", with_app_command=True)
+    @commands.hybrid_command(name="kick", description="Kick a player from the server", with_app_command=True)
     @commands.check(in_animal_shop)
-    async def ban(self, ctx, steam_id: str):
-        
+    async def kick(self, ctx, steam_id: str):
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
             embed = discord.Embed(
                 title="Animalia Survival 🤖",
@@ -26,8 +25,8 @@ class BanCog(commands.Cog):
 
         # Ask the admin to confirm the ban
         embed = discord.Embed(
-            title="Ban Confirmation",
-            description=f"Are you sure you want to ban the player with Steam ID {steam_id}? React with \u2705 to confirm or \u274c to cancel.",
+            title="Kick Confirmation",
+            description=f"Are you sure you want to kick the player with Steam ID {steam_id}? React with \u2705 to confirm or \u274c to cancel.",
             color=discord.Color.red(),
         )
         confirmation_message = await ctx.send(embed=embed)
@@ -41,7 +40,7 @@ class BanCog(commands.Cog):
 
         # If the admin confirmed the ban, use the Rcon command
         if str(reaction.emoji) == "\u2705":
-            rcon_command = f"Ban.PlayerID {steam_id}"
+            rcon_command = f"Kick.PlayerID {steam_id}"
             response = await rcon(
                 rcon_command,
                 host=self.rcon_host,
@@ -49,17 +48,17 @@ class BanCog(commands.Cog):
                 passwd=self.rcon_passwd
             )
 
-            if "Ban.PlayerID:Ban" in response:
+            if "Kick.PlayerID:Kick" in response:
                 embed = discord.Embed(
                     title="Animalia Survival 🤖",
-                    description=f"Player with Steam ID {steam_id} has been banned.",
+                    description=f"Player with Steam ID {steam_id} has been kicked.",
                     color=0x00FF00,
                 )
                 await ctx.send(embed=embed, ephemeral=True)
             else:
                 embed = discord.Embed(
                     title="Animalia Survival 🤖",
-                    description=f"Failed to ban player with Steam ID {steam_id}. Error: {response}",
+                    description=f"Failed to kick player with Steam ID {steam_id}. Error: {response}",
                     color=0xFF0000,
                 )
                 await ctx.send(embed=embed, ephemeral=True)
@@ -68,10 +67,10 @@ class BanCog(commands.Cog):
         else:
             embed = discord.Embed(
                 title="Animalia Survival 🤖",
-                description=f"Player with Steam ID {steam_id} has not been banned.",
+                description=f"Player with Steam ID {steam_id} has not been kicked.",
                 color=0x00FF00,
             )
             await ctx.send(embed=embed, ephemeral=True)
 
 async def setup(bot):
-    await bot.add_cog(BanCog(bot))
+    await bot.add_cog(KickCog(bot))

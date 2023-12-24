@@ -1,14 +1,17 @@
 from functions import *
 from import_lib import *
+from rcon import rcon
 
 class addadmin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.superuser = int(os.getenv("SUPER_USER_ID"))
-        self.adminlist_path = os.getenv("ADMINLIST_PATH")
+        self.rcon_host = os.getenv("RCON_ADDRESS")
+        self.rcon_port = os.getenv("RCON_PORT")
+        self.rcon_passwd = os.getenv("RCON_PW")
 
     @commands.hybrid_command(name="addadmin", description="Adds an admin to the Admin List", with_app_command=True)
-    async def addadmin(self, ctx, discord_id: int = None):
+    async def addadmin(self, ctx, steam_id: str = None):
         # Check if the user has permission to use the command
         if not any(role.id in {self.superuser} for role in ctx.author.roles):
             embed = discord.Embed(
@@ -19,51 +22,64 @@ class addadmin(commands.Cog):
             await ctx.send(embed=embed)
             return
 
-        # Check if there is an actual discord id
-        if discord_id is None:
+        # Check if there is an actual steam id
+        if steam_id is None:
             embed = discord.Embed(
                 title="Animalia Survial 🤖",
-                description="You need to provide a Discord ID to give admin access.",
+                description="You need to provide a Steam ID to give admin access.",
                 color=0xFF0000,
             )
             await ctx.send(embed=embed)
             return
 
-        # Check if the player exists in the database
-        db = mysql.connector.connect(
-            host="localhost", user="root", password="", database="reborn_legends"
+        # Ask the admin to confirm the addition
+        embed = discord.Embed(
+            title="Add Admin Confirmation",
+            description=f"Are you sure you want to add admin access for the player with Steam ID {steam_id}? React with \u2705 to confirm or \u274c to cancel.",
+            color=discord.Color.gold(),
         )
-        cursor = db.cursor()
-        cursor.execute("SELECT steam_id FROM players WHERE discord_id = %s", (discord_id,))
-        player_data = cursor.fetchone()
-        if player_data is None or player_data[0] is None:
-            embed = discord.Embed(
-                title="Animalia Survial 🤖",
-                description="This player does not exist or has not linked their Steam ID.",
-                color=0xFF0000,
-            )
-            await ctx.send(embed=embed)
-            return
+        confirmation_message = await ctx.send(embed=embed)
+        await confirmation_message.add_reaction("\u2705")  # Check mark
+        await confirmation_message.add_reaction("\u274c")  # X mark
 
-        # Add the Steam ID to the "AdminList" text file
-        with open(self.adminlist_path, "a") as f:
-            f.write(player_data[0] + "\n")
-        user = await self.bot.fetch_user(discord_id)
-        if user:
-            embed = discord.Embed(
-                title="Animalia Survial 🤖",
-                description=f"Admin List {user.mention} | has been added to the admin list.",
-                color=0x2ECC71,
+        # Wait for the admin to react
+        def check(reaction, user):
+            return user == ctx.author and str(reaction.emoji) in ["\u2705", "\u274c"]
+        reaction, _ = await self.bot.wait_for("reaction_add", check=check)
+
+        # If the admin confirmed, use the Rcon command to add the Steam ID to the admin list
+        if str(reaction.emoji) == "\u2705":
+            rcon_command = f"AddAdmin.PlayerID {steam_id}"
+            response = await rcon(
+                rcon_command,
+                host=self.rcon_host,
+                port=self.rcon_port,
+                passwd=self.rcon_passwd
             )
-            await ctx.send(embed=embed)
+
+            if "AddAdmin.PlayerID:AdminGranted" in response:
+                embed = discord.Embed(
+                    title="Animalia Survial 🤖",
+                    description=f"Player with Steam ID {steam_id} has been added to the admin list.",
+                    color=0x2ECC71,
+                )
+                await ctx.send(embed=embed)
+            else:
+                embed = discord.Embed(
+                    title="Animalia Survial 🤖",
+                    description=f"Failed to add player with Steam ID {steam_id} to the admin list. Error: {response}",
+                    color=0xFF0000,
+                )
+                await ctx.send(embed=embed)
+
+        # Otherwise, cancel the addition
         else:
             embed = discord.Embed(
                 title="Animalia Survial 🤖",
-                description=f"User with ID {discord_id} has been added to the admin list.",
-                color=0x2ECC71,
+                description=f"Admin access for the player with Steam ID {steam_id} has not been granted.",
+                color=0x00FF00,
             )
             await ctx.send(embed=embed)
-        db.close()
 
 async def setup(bot):
     await bot.add_cog(addadmin(bot))

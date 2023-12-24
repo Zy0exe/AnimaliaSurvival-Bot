@@ -9,7 +9,6 @@ class GameServer(commands.Cog):
 
     async def rcon(self, rcon_command):
         try:
-            # Connect to the server
             response = await rcon(
                 rcon_command, host=self.server_address, port=self.server_port, passwd=self.rcon_password)
             return response
@@ -30,11 +29,6 @@ class GameServer(commands.Cog):
             'Night',
             'tp.PlayerID',
             'tp.All',
-            'RemoveAdmin.PlayerID',
-            'AddAdmin.PlayerID',
-            'Ban.PlayerID',
-            'UnBan.PlayerID',
-            'Kick.PlayerID',
             'GetServerName',
             'GetServerSettings',
         }
@@ -48,7 +42,7 @@ class GameServer(commands.Cog):
     async def rcon_command(self, ctx, *, rcon_command: str):
         try:
             response = await self.rcon(rcon_command)
-            #!print(response)
+            print(response)
 
             if response:
                 embed = discord.Embed(
