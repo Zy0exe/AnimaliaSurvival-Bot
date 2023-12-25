@@ -33,6 +33,12 @@ class buy(commands.Cog):
     @app_commands.autocomplete(animal=animal_autocomplete)
     @app_commands.autocomplete(gender=gender_autocomplete)
     async def buy(self, ctx, animal=None, gender=None):
+        """
+        Buy Animals from the shop.
+
+        :param animal: The animal you want.
+        :param gender: The gender of the animal.
+        """
         player_data = get_player_data(ctx.author.id)
         # Check if the player has linked their Steam ID
         if player_data is None or player_data["steam_id"] is None:

@@ -45,6 +45,14 @@ class inject(commands.Cog):
     @app_commands.autocomplete(gender=gender_autocomplete)
     @app_commands.autocomplete(slot=slot_autocomplete)
     async def inject(self, ctx, animal: str = None, gender: str = None, slot: int = None):
+        """
+        Inject a animal into a specified slot.
+
+        :param animal: The animal you want.
+        :param gender: The gender of the animal.
+        :param slot: TThe in-game slot you want.
+        """
+
         if animal is None:
             embed = discord.Embed(
                 title="Animalia Survial 🤖",

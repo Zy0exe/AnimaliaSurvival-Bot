@@ -48,6 +48,12 @@ class Pay(commands.Cog):
     @commands.hybrid_command(name="pay", description="Pay coins to a user", with_app_command=True)
     @commands.check(in_animal_shop)
     async def pay(self, ctx, member: discord.Member, amount: int):
+        """
+        Pay coins to a user.
+
+        :param member: The user you want to make the payment to.
+        :param amount: The amount you want to send.
+        """
         # Check if the amount is valid
         if amount <= 0:
             embed = discord.Embed(

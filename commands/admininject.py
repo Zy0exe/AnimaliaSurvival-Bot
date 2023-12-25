@@ -45,6 +45,15 @@ class ainject(commands.Cog):
     @app_commands.autocomplete(gender=gender_autocomplete)
     @app_commands.autocomplete(slot=slot_autocomplete)
     async def ainject(self, ctx, user: discord.User, animal: str = None, gender: str = None, slot: int = None):
+        """
+        Allows Admins to Inject Animals for players.
+
+        :param user: The user you want to inject the animal for.
+        :param animal: The animal you want.
+        :param gender: The gender of the animal.
+        :param slot: TThe in-game slot you want.
+        """
+
         # Check if the user has any of the specified roles
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
             embed = discord.Embed(

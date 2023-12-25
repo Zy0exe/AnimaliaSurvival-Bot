@@ -11,9 +11,14 @@ class BanCog(commands.Cog):
         self.rcon_port = os.getenv("RCON_PORT")
         self.rcon_passwd = os.getenv("RCON_PW")
 
-    @commands.hybrid_command(name="ban", description="Adds a user to the server ban list", with_app_command=True)
+    @commands.hybrid_command(name="ban", description="Ban a player from the server.", with_app_command=True)
     @commands.check(in_animal_shop)
     async def ban(self, ctx, steam_id: str):
+        """
+        Ban a player from the server.
+
+        :param steam_id: The ID of the player to Ban.
+        """
         
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
             embed = discord.Embed(

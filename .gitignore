@@ -2,3 +2,5 @@
 AdminList.txt
 banlist.txt
 transaction_log.txt
+commands/blackjack.py
+*.pyc

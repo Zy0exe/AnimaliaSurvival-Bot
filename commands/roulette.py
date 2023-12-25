@@ -45,6 +45,13 @@ class Roulette(commands.Cog):
     @app_commands.autocomplete(bet_amount=betamount_autocomplete)
     @app_commands.autocomplete(bet_color=betcolor_autocomplete)
     async def roulette(self, ctx, bet_amount: int, bet_color: str):
+        """
+        Play roulette.
+
+        :param bet_amount: The amount you want to bet.
+        :param bet_color: The color you want to bet on.
+        """
+
         bet_color_lower = bet_color.lower()
 
         if not await self.check_channel(ctx):

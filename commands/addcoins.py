@@ -9,6 +9,12 @@ class addcoins(commands.Cog):
 
     @commands.hybrid_command(name="addcoins", description="Adds coins to a specified user", with_app_command=True)
     async def addcoins(self, ctx, member: discord.Member = None, amount: int = 0):
+        """
+        Adds coins to a specified user.
+
+        :param member: The user you want to add coins to.
+        :param amount: The amount you want to add.
+        """
         # Check if the user has any of the specified roles
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
             embed = discord.Embed(

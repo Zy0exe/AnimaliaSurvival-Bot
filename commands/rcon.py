@@ -27,7 +27,6 @@ class GameServer(commands.Cog):
             'Time',
             'Day',
             'Night',
-            'tp.PlayerID',
             'tp.All',
             'GetServerName',
             'GetServerSettings',

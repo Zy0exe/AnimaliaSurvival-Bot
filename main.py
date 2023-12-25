@@ -5,13 +5,14 @@ from import_lib import *
 load_dotenv()
 
 TOKEN = os.getenv("TOKEN")
+APP_ID = os.getenv("APPLICATION_ID")
 
 # Connect to the database
 db = mysql.connector.connect(
     host="localhost", user="root", password="", database="reborn_legends"
 )
 
-bot = commands.Bot(command_prefix=["!", "."], help_command=None, intents=discord.Intents.all(), application_id=1100912113867825184)
+bot = commands.Bot(command_prefix=["!", "."], help_command=None, intents=discord.Intents.all(), application_id=APP_ID)
 
 async def load():
     for filename in os.listdir('./commands'):

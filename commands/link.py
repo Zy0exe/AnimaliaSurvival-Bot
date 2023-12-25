@@ -10,6 +10,11 @@ class link(commands.Cog):
     @commands.hybrid_command(name="link", description="Link your steam account", with_app_command=True)
     @commands.check(in_animal_shop)
     async def link(self, ctx, steam_id: str = None):
+        """
+        Link your steam account.
+
+        :param steam_id: Your Steam ID.
+        """
         
         if steam_id is None:
             embed = discord.Embed(

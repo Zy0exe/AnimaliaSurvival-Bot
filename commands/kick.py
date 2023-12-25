@@ -14,6 +14,12 @@ class KickCog(commands.Cog):
     @commands.hybrid_command(name="kick", description="Kick a player from the server", with_app_command=True)
     @commands.check(in_animal_shop)
     async def kick(self, ctx, steam_id: str):
+        """
+        Kick a player from the server.
+
+        :param steam_id: The ID of the player to kick.
+        """
+
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
             embed = discord.Embed(
                 title="Animalia Survival 🤖",

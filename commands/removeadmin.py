@@ -12,6 +12,13 @@ class RemoveAdmin(commands.Cog):
 
     @commands.hybrid_command(name="removeadmin", description="Remove an admin from the Admin List", with_app_command=True)
     async def removeadmin(self, ctx, steam_id: str = None):
+
+        """
+        Remove an admin from the Admin List.
+
+        :param steam_id: The ID of the player to remove perms.
+        """
+
         # Check if the user has any of the specified roles
         if not any(role.id in {self.superuser} for role in ctx.author.roles):
             embed = discord.Embed(

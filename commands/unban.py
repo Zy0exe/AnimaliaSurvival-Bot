@@ -11,9 +11,15 @@ class UnBanCog(commands.Cog):
         self.rcon_port = os.getenv("RCON_PORT")
         self.rcon_passwd = os.getenv("RCON_PW")
 
-    @commands.hybrid_command(name="unban", description="Unbans a Player", with_app_command=True)
+    @commands.hybrid_command(name="unban", description="Unban a Player", with_app_command=True)
     @commands.check(in_animal_shop)
     async def unban(self, ctx, steam_id: str):
+        """
+        Unban a Player.
+
+        :param steam_id: The ID of the player to unban.
+        """
+        
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
             embed = discord.Embed(
                 title="Animalia Survival 🤖",

@@ -10,8 +10,13 @@ class addadmin(commands.Cog):
         self.rcon_port = os.getenv("RCON_PORT")
         self.rcon_passwd = os.getenv("RCON_PW")
 
-    @commands.hybrid_command(name="addadmin", description="Adds an admin to the Admin List", with_app_command=True)
+    @commands.hybrid_command(name="addadmin", description="Add a admin", with_app_command=True)
     async def addadmin(self, ctx, steam_id: str = None):
+        """
+        Add a admin.
+
+        :param steam_id: The ID of the player to give perms.
+        """
         # Check if the user has permission to use the command
         if not any(role.id in {self.superuser} for role in ctx.author.roles):
             embed = discord.Embed(
