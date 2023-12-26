@@ -12,7 +12,7 @@ class ainject(commands.Cog):
         ctx,
         current: str,
     ) -> List[app_commands.Choice[str]]:
-        animals = ['Lion', 'Croc', 'Ele', 'Giraffe', 'Hippo', 'Hyena', 'Leo', 'Meerkat', 'Rhino', 'WB', 'Wilddog', 'Zebra']
+        animals = ['Lion', 'Crocodille', 'Elephant', 'Giraffe', 'Hippopotamus', 'Hyena', 'Leopard', 'Meerkat', 'Rhinoceros', 'Wildebeest', 'WildDog', 'Zebra']
         return [
             app_commands.Choice(name=animal, value=animal)
             for animal in animals if current.lower() in animal.lower()
@@ -40,18 +40,87 @@ class ainject(commands.Cog):
             for slot in slots if current.lower() in slot.lower()
         ]
 
+    def get_animal_ids(self, animal: str, gender: str) -> List[str]:
+        animals_Males = {
+            'Lion': 'Lion_Adult2',
+            'Crocodille': 'Crocodille_Adult_M',
+            'Elephant': 'Elephant_Adult_M',
+            'Giraffe': 'Giraffe_Adult_M', 
+            'Hippopotamus': 'Hippopotamus_Adult_M', 
+            'Hyena': 'Hyena_Adult_M', 
+            'Leopard': 'Leopard_Adult_M', 
+            'Meerkat': 'MeerkatAdult_M', 
+            'Rhinoceros': 'Rhinoceros_Adult_M', 
+            'Wildebeest': 'Wildebeest_Adult_M', 
+            'WildDog': 'WildDog_M', 
+            'Zebra': 'Zebra_Adult_M',
+        }
+
+        animals_Females = {
+            'Lion': 'Lioness_Adult',
+            'Crocodille': 'Crocodille_Adult_F',
+            'Elephant': 'Elephant_Adult_F',
+            'Giraffe': 'Giraffe_Adult_F', 
+            'Hippopotamus': 'Hippopotamus_Adult_F', 
+            'Hyena': 'Hyena_Adult_F', 
+            'Leopard': 'Leopard_Adult_F', 
+            'Meerkat': 'MeerkatAdult_F', 
+            'Rhinoceros': 'Rhinoceros_Adult_F', 
+            'Wildebeest': 'Wildebeest_Adult_F', 
+            'WildDog': 'WildDog_F', 
+            'Zebra': 'Zebra_Adult_F',
+        }
+
+        return animals_Males[animal] if gender == 'Male' else animals_Females[animal]
+
+    async def is_slot_empty(self, steam_id: str, slot: int) -> bool:
+        """
+        Check if the specified slot is empty.
+        """
+        rcon_command = f"PlayerSlot {steam_id} {slot - 1}"
+        response = await rcon(
+            rcon_command,
+            host=os.getenv("RCON_ADDRESS"),
+            port=os.getenv("RCON_PORT"),
+            passwd=os.getenv("RCON_PW")
+        )
+        return f"PlayerSlot:{steam_id}:SlotNotFound" in response
+    
+    async def location_autocomplete(
+        self,
+        ctx,
+        current: str,
+    ) -> List[app_commands.Choice[str]]:
+        locations = {
+            'South': {'x': -200365, 'y': 70810, 'z': 3177},
+            'East': {'x': -6567, 'y': 159572, 'z': 4297},
+            'East': {'x': -60525, 'y': -165321, 'z': 13620},
+            'Northwest': {'x': 111844, 'y': -122014, 'z': 7860},
+            'Northeast': {'x': 102393, 'y': 86158, 'z': 6283},
+            'Southeast': {'x': -148784.0, 'y': 124121.0, 'z': 3177.0},
+            'Southwest': {'x': -180000.0, 'y': -136600.0, 'z': 5800.0},
+            'Region 0': {'x': 1035.0, 'y': 29318.0, 'z': 4468.0},
+            'North': {'x': 105446, 'y': 3836, 'z': 6311},
+        }
+        return [
+            app_commands.Choice(name=spawn_name, value=spawn_name)
+            for spawn_name in locations.keys() if current.lower() in spawn_name.lower()
+        ]
+
     @commands.hybrid_command(name="ainject", description="Allows Admins to Inject Animals for players.", with_app_command=True)
     @app_commands.autocomplete(animal=animal_autocomplete)
     @app_commands.autocomplete(gender=gender_autocomplete)
     @app_commands.autocomplete(slot=slot_autocomplete)
-    async def ainject(self, ctx, user: discord.User, animal: str = None, gender: str = None, slot: int = None):
+    @app_commands.autocomplete(location=location_autocomplete)
+    async def ainject(self, ctx, user: discord.User, animal: str = None, gender: str = None, slot: int = None, location: str = None):
         """
         Allows Admins to Inject Animals for players.
 
         :param user: The user you want to inject the animal for.
         :param animal: The animal you want.
         :param gender: The gender of the animal.
-        :param slot: TThe in-game slot you want.
+        :param slot: The in-game slot you want.
+        :param location: The in-game location you want to spawn.
         """
 
         # Check if the user has any of the specified roles
@@ -104,76 +173,96 @@ class ainject(commands.Cog):
         # Retrieve the Steam ID associated with the Discord ID
         steam_id = player_data["steam_id"]
 
+        # Get the animal ID based on the selected gender
+        animal_id = self.get_animal_ids(animal, gender)
 
-        # Inject the animal into the game using the specified slot
-        base_path = os.getenv("ANIMAL_TEMPLATES_PATH")
-        folder_name = os.path.join(os.getenv("SERVER_FOLDER_PATH"))
-        file_name = f"{base_path}{animal}_{gender}.sav"
-        player_folder = os.path.join(folder_name, steam_id)
-        new_file_name = f"{steam_id}_{slot-1}.sav"
-        new_file_path = os.path.join(player_folder, new_file_name)
-
-        # Check if the specified slot is valid
-        if slot < 1 or slot > 10:
-            embed = Embed(
-                description="The specified slot is invalid. Please choose a number between 1 and 10."
+        # Check if the slot is empty before injecting
+        if not await self.is_slot_empty(steam_id, slot):
+            confirmation_embed = discord.Embed(
+                title="Animalia Survival 🤖",
+                description=f"Slot {slot} is not empty. Are you sure you want to inject in this slot?",
+                color=discord.Color.yellow(),  # Dark yellow color
             )
-            await ctx.send(embed=embed)
-            return
-
-        if os.path.exists(new_file_path):
-            embed = discord.Embed(
-                title="Animalia Survial 🤖",
-                description=f"The slot {slot} is already occupied. Do you want to proceed with the injection and overwrite the existing animal data?",
-                color=0xFF0000,
-            )
-            confirmation_msg = await ctx.send(embed=embed)
-            await confirmation_msg.add_reaction("✅")  # Add a checkmark reaction to confirm
-            await confirmation_msg.add_reaction("❌")  # Add a cross reaction to cancel
-
-            def check(reaction, user):
-                return (
-                    user == ctx.author
-                    and str(reaction.emoji) in ["✅", "❌"]
-                    and reaction.message.id == confirmation_msg.id
-                )
-
+            confirmation_message = await ctx.send(embed=confirmation_embed)
+            
+            # Add the confirmation reactions to the message
+            await confirmation_message.add_reaction("✅")
+            await confirmation_message.add_reaction("❌")
+            
             try:
-                reaction, _ = await ctx.bot.wait_for(
-                    "reaction_add", timeout=60, check=check
+                reaction, _ = await self.bot.wait_for(
+                    "reaction_add",
+                    check=lambda r, u: u == ctx.author and r.message.id == confirmation_message.id and str(r.emoji) in ["✅", "❌"],
+                    timeout=30.0  # 30 seconds timeout
                 )
             except asyncio.TimeoutError:
-                embed = discord.Embed(
-                    title="Animalia Survial 🤖",
-                    description="Confirmation timed out.",
-                    color=0xFF0000,
-                )
-                await ctx.send(embed=embed)
+                # Handle timeout (admin didn't react in time)
+                await confirmation_message.delete()
                 return
-
+            
             if str(reaction.emoji) == "❌":
-                embed = discord.Embed(
-                    title="Animalia Survial 🤖",
-                    description="Injection canceled.",
-                    color=0xFF0000,
+                await confirmation_message.delete()
+                cancel_embed = discord.Embed(
+                    title="Animalia Survival 🤖",
+                    description="Animal injection canceled.",
+                    color=0xFFD700,  # You can use a different color for the cancel message
                 )
-                await ctx.send(embed=embed)
+                cancel_embed.set_footer(text="Injection canceled")
+                await ctx.send(embed=cancel_embed, delete_after=10)
                 return
 
-        try:
-            shutil.copy(file_name, new_file_path)
-            print(f"{file_name} copied to {new_file_path}")
-        except FileNotFoundError:
-            await ctx.send(f"File {file_name} not found.")
-            return
+        if location:
+            locations = {
+                'South': {'x': -200365, 'y': 70810, 'z': 3177},
+                'East': {'x': -6567, 'y': 159572, 'z': 4297},
+                'West': {'x': -60525, 'y': -165321, 'z': 13620},
+                'Northwest': {'x': 111844, 'y': -122014, 'z': 7860},
+                'Northeast': {'x': 102393, 'y': 86158, 'z': 6283},
+                'Southeast': {'x': -148784.0, 'y': 124121.0, 'z': 3177.0},
+                'Southwest': {'x': -180000.0, 'y': -136600.0, 'z': 5800.0},
+                'Region 0': {'x': 1035.0, 'y': 29318.0, 'z': 4468.0},
+                'North': {'x': 105446, 'y': 3836, 'z': 6311},
+            }
 
-        embed = Embed(
-            title="Animalia Survial 🤖",
-            description=f"{animal} has been injected into the game for {user.mention} using slot {slot}.",
-            color=0x00FF00,
+            if location not in locations:
+                await ctx.send(f"Invalid location: {location}.")
+                return
+
+            x, y, z = locations[location]['x'], locations[location]['y'], locations[location]['z']
+        else:
+            x, y, z = -180000.0, -136600.0, 5800.0
+
+
+        # Inject the animal into the game using the specified slot
+        rcon_command = f"CreateSaveSlot {steam_id} {animal_id} {slot-1} 1 1 1 1 1 1 1 1 1 {x} {y} {z} 185"
+        response = await rcon(
+            rcon_command,
+            host=os.getenv("RCON_ADDRESS"),
+            port=os.getenv("RCON_PORT"),
+            passwd=os.getenv("RCON_PW")
         )
-        await ctx.send(embed=embed)
-        print(f"Animal injected into slot {slot} for player {steam_id}")
+        print(response)
+
+        # Handle the Rcon response as needed
+        if f"CreateSaveSlot:CreateAnimalInSlot:{steam_id}:{slot-1}" in response:
+            success_embed = discord.Embed(
+                title="Animalia Survival 🤖",
+                description=f"{animal} has been injected into the game for {user.mention} using slot {slot}.",
+                color=0x00FF00,
+            )
+            success_embed.set_footer(text="Injection successful")
+            await ctx.send(embed=success_embed)
+            print(f"Animal injected into slot {slot} for player {steam_id}")
+            print(response)
+        else:
+            failure_embed = discord.Embed(
+                title="Animalia Survival 🤖",
+                description="Failed to inject animal. Please check the logs for details.",
+                color=0xFF0000,
+            )
+            failure_embed.set_footer(text="Injection failed")
+            await ctx.send(embed=failure_embed)
+            print(f"Failed to inject animal into slot {slot} for player {steam_id}")
 
 async def setup(bot):
     await bot.add_cog(ainject(bot))

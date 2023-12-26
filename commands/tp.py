@@ -7,9 +7,6 @@ class TpCog(commands.Cog):
         self.bot = bot
         self.superuser = int(os.getenv("SUPER_USER_ID"))
         self.adminrole = int(os.getenv("ADMIN_ROLE_ID"))
-        self.rcon_host = os.getenv("RCON_ADDRESS")
-        self.rcon_port = os.getenv("RCON_PORT")
-        self.rcon_passwd = os.getenv("RCON_PW")
         self.tp_enabled = os.getenv("TP_ENABLED", "True").lower() == "true"
 
     async def is_tp_allowed(self, ctx):
@@ -59,9 +56,9 @@ class TpCog(commands.Cog):
             rcon_command = f"tp.PlayerID {player_id} {x} {y} {z}"
             response = await rcon(
                 rcon_command,
-                host=self.rcon_host,
-                port=self.rcon_port,
-                passwd=self.rcon_passwd
+                host=os.getenv("RCON_ADDRESS"),
+                port=os.getenv("RCON_PORT"),
+                passwd=os.getenv("RCON_PW")
             )
 
             if "tp.PlayerID:TeleportedPlayer" in response:

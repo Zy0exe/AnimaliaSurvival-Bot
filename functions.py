@@ -10,7 +10,7 @@ animals = {
         "gender": "",
         #"kind": "carn"
     },
-    "Croc": {
+    "Crocodille": {
         "price": 25000,
         "image": "",
         "slot": "2",
@@ -18,7 +18,7 @@ animals = {
         "gender": "",
         #"kind": "carn"
     },
-    "Ele": {
+    "Elephant": {
         "price": 25000, 
         "image": "", 
         "slot": "3", 
@@ -34,7 +34,7 @@ animals = {
         "gender": "",
         #"kind": "herb"
     },
-    "Hippo": {
+    "Hippopotamus": {
         "price": 20000, 
         "image": "", 
         "slot": "5", 
@@ -50,7 +50,7 @@ animals = {
         "gender": "",
         #"kind": "carn"
     },
-    "Leo": {
+    "Leopard": {
         "price": 20000, 
         "image": "", 
         "slot": "7", 
@@ -66,7 +66,7 @@ animals = {
         "gender": "",
         #"kind": "herb"
     },
-    "Rhino": {
+    "Rhinoceros": {
         "price": 20000, 
         "image": "", 
         "slot": "9", 
@@ -74,7 +74,7 @@ animals = {
         "gender": "",
         #"kind": "herb"
     },
-    "WB": {
+    "Wildebeest": {
         "price": 15000, 
         "image": "",  #<:wildbeest:1188049123165868042>
         "slot": "10", 
@@ -82,7 +82,7 @@ animals = {
         "gender": "",
         #"kind": "herb"
     },
-    "Wilddog": {
+    "WildDog": {
         "price": 20000, 
         "image": "", 
         "slot": "11", 
