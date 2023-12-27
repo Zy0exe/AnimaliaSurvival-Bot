@@ -1,6 +1,6 @@
 # Animalia Bot
 
-[Documentation](https://zy0-exes-organization.gitbook.io/animaliabot/
+[Documentation](https://zy0-exes-organization.gitbook.io/animaliabot/)
 
 ## Contributing
 
