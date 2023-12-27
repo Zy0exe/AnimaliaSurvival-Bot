@@ -130,7 +130,7 @@ class VoiceCoins(commands.Cog):
                 print(f"DEBUG: {member.name}'s total coins: {user_data['coins']}")
 
                 # Send an embed message to a specific text channel
-                channel_id = 1182986861577240687  # Replace with the actual channel ID
+                channel_id = os.getenv("VOICE_COINS_MESSAGE_ID")  # Replace with the actual channel ID
                 target_channel = member.guild.get_channel(channel_id)
                 if target_channel:
                     embed = discord.Embed(

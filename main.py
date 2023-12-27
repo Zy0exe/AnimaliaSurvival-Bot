@@ -4,12 +4,19 @@ from import_lib import *
 # ENV
 load_dotenv()
 
+# BOT
 TOKEN = os.getenv("TOKEN")
 APP_ID = os.getenv("APPLICATION_ID")
 
+# DB
+DB_HOST = os.getenv("DATABASE_HOST")
+DB_USER = os.getenv("DATABASE_USER")
+DB_PW = os.getenv("DATABASE_PW")
+DB_NAME = os.getenv("DATABASE_NAME")
+
 # Connect to the database
 db = mysql.connector.connect(
-    host="localhost", user="root", password="", database="reborn_legends"
+    host=DB_HOST, user=DB_USER, password=DB_PW, database=DB_NAME
 )
 
 bot = commands.Bot(command_prefix=["!", "."], help_command=None, intents=discord.Intents.all(), application_id=APP_ID)

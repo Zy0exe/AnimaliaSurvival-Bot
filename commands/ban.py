@@ -55,28 +55,31 @@ class BanCog(commands.Cog):
             )
 
             if "Ban.PlayerID:Ban" in response:
-                embed = discord.Embed(
+                Banned_embed = discord.Embed(
                     title="Animalia Survival 🤖",
                     description=f"Player with Steam ID {steam_id} has been banned.",
                     color=0x00FF00,
                 )
-                await ctx.send(embed=embed, ephemeral=True)
+                Banned_embed.set_footer(text="Player Banned")
+                await ctx.send(embed=Banned_embed, ephemeral=True)
             else:
-                embed = discord.Embed(
+                Error_embed = discord.Embed(
                     title="Animalia Survival 🤖",
                     description=f"Failed to ban player with Steam ID {steam_id}. Error: {response}",
                     color=0xFF0000,
                 )
-                await ctx.send(embed=embed, ephemeral=True)
+                Error_embed.set_footer(text="rcon error contact bot developer")
+                await ctx.send(embed=Error_embed, ephemeral=True)
 
         # Otherwise, cancel the ban
         else:
-            embed = discord.Embed(
+            NotBanned_embed = discord.Embed(
                 title="Animalia Survival 🤖",
                 description=f"Player with Steam ID {steam_id} has not been banned.",
                 color=0x00FF00,
             )
-            await ctx.send(embed=embed, ephemeral=True)
+            NotBanned_embed.set_footer(text="Player Not Banned")
+            await ctx.send(embed=NotBanned_embed, ephemeral=True)
 
 async def setup(bot):
     await bot.add_cog(BanCog(bot))

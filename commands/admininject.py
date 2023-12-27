@@ -183,6 +183,7 @@ class ainject(commands.Cog):
                 description=f"Slot {slot} is not empty. Are you sure you want to inject in this slot?",
                 color=discord.Color.yellow(),  # Dark yellow color
             )
+            confirmation_embed.set_footer(text="Confirmation Process")
             confirmation_message = await ctx.send(embed=confirmation_embed)
             
             # Add the confirmation reactions to the message
@@ -207,7 +208,7 @@ class ainject(commands.Cog):
                     description="Animal injection canceled.",
                     color=0xFFD700,  # You can use a different color for the cancel message
                 )
-                cancel_embed.set_footer(text="Injection canceled")
+                cancel_embed.set_footer(text="Injection Canceled")
                 await ctx.send(embed=cancel_embed, delete_after=10)
                 return
 

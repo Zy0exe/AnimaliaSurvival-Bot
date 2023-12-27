@@ -11,7 +11,7 @@ class buy(commands.Cog):
         ctx,
         current: str,
     ) -> List[app_commands.Choice[str]]:
-        animals = ['Lion', 'Croc', 'Ele', 'Giraffe', 'Hippo', 'Hyena', 'Leo', 'Meerkat', 'Rhino', 'WB', 'Wilddog', 'Zebra']
+        animals = ['Lion', 'Crocodille', 'Elephant', 'Giraffe', 'Hippopotamus', 'Hyena', 'Leopard', 'Meerkat', 'Rhinoceros', 'Wildebeest', 'WildDog', 'Zebra']
         return [
             app_commands.Choice(name=animal, value=animal)
             for animal in animals if current.lower() in animal.lower()

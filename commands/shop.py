@@ -23,9 +23,9 @@ class shop(commands.Cog):
         # Get player's owned animals data
         owned_animals_data = get_player_animals(ctx.author.id)
         owned_animals = (
-            ", ".join(
+            "\n ".join(
                 [
-                    f"{animal.capitalize()} ({data['price']} :coin:)"
+                    f"{animal.capitalize()} (x{data['quantity']})"
                     for animal, data in owned_animals_data.items()
                 ]
             )

@@ -5,57 +5,20 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 class BanListHandler(FileSystemEventHandler):
-    def __init__(self, cog, file_path, channel_id):
+    def __init__(self, cog, file_path):
         super().__init__()
         self.cog = cog
         self.file_path = file_path
-        self.channel_id = channel_id
-
-    def on_modified(self, event):
-        if event.src_path == self.file_path:
-            asyncio.create_task(self.cog.send_banlist_update())
 
 class banlist(commands.Cog):
-    def __init__(self, bot, file_path, channel_id, delete_emoji):
+    def __init__(self, bot, file_path, delete_emoji):
         self.bot = bot
         self.file_path = file_path
-        self.channel_id = channel_id
-        self.banlist_handler = BanListHandler(self, file_path, channel_id)
-        self.observer = Observer()
-        self.observer.schedule(self.banlist_handler, path=file_path, recursive=False)
-        self.observer.start()
-
+        self.banlist_handler = BanListHandler(self, file_path)
+        self.delete_emoji = delete_emoji
         self.superuser = int(os.getenv("SUPER_USER_ID"))
         self.adminrole = int(os.getenv("ADMIN_ROLE_ID"))
-        self.delete_emoji = delete_emoji
-
-    async def send_banlist_update(self):
-        try:
-            with open(self.file_path, "r") as file:
-                ban_list = file.read()
-        except FileNotFoundError:
-            print("The ban list file was not found.")
-            return
-        except Exception as e:
-            print(f"An error occurred while reading the ban list: {e}")
-            return
-
-        if ban_list:
-            channel = self.bot.get_channel(self.channel_id)
-            if channel is not None:
-                embed = discord.Embed(
-                    title="Ban List Update",
-                    description=ban_list,
-                    color=0xFF0000
-                )
-                try:
-                    await channel.send(embed=embed)
-                except discord.HTTPException as ex:
-                    print(f"Error sending ban list update: {ex}")
-            else:
-                print(f"Channel with ID {self.channel_id} not found.")
-        else:
-            print("The ban list is empty.")
+        self.allowed_channel_id = int(os.getenv("BANLIST_CHANNEL_ID"))
 
     @commands.hybrid_command(name="banlist", description="Shows the banlist of the server", with_app_command=True)
     async def banlist(self, ctx):
@@ -68,12 +31,12 @@ class banlist(commands.Cog):
             )
             await ctx.send(embed=embed)
             return
-
-        allowed_channel_id = 1183107878924583064  # Replace with the actual ID of the allowed channel
-        if ctx.channel.id != allowed_channel_id:
+        
+        # Check if the command is invoked in the allowed channel
+        if ctx.channel.id != self.allowed_channel_id:
             embed = discord.Embed(
                 title="Animalia Survial 🤖",
-                description="This command can only be used in the specified text channel.",
+                description="This command is only allowed in a specific channel.",
                 color=0xFF0000,
             )
             await ctx.send(embed=embed)
@@ -162,8 +125,6 @@ class banlist(commands.Cog):
 
 async def setup(bot):
     file_path = os.getenv("BANLIST_PATH")
-    channel_id = 1183107878924583064  # Replace with the actual ID of the Discord channel
     delete_emoji = "❌"  # Replace with the desired delete emoji
-    cog = banlist(bot, file_path, channel_id, delete_emoji)
-    await cog.send_banlist_update()  # Send the initial ban list
+    cog = banlist(bot, file_path, delete_emoji)
     await bot.add_cog(cog)
