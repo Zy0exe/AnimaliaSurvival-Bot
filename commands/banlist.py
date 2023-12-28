@@ -120,9 +120,6 @@ class banlist(commands.Cog):
                 except asyncio.TimeoutError:
                     break  # Exit the loop if no reaction is received within the timeout
 
-        self.observer.stop()
-        self.observer.join()
-
 async def setup(bot):
     file_path = os.getenv("BANLIST_PATH")
     delete_emoji = "❌"  # Replace with the desired delete emoji
