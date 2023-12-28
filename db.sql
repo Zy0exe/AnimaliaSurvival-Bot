@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 07-Nov-2023 às 21:20
+-- Tempo de geração: 27-Dez-2023 às 02:06
 -- Versão do servidor: 10.4.25-MariaDB
 -- versão do PHP: 8.1.10
 
@@ -18,8 +18,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `kruger_park`
+-- Banco de dados: `animalia_bot`
 --
+CREATE DATABASE IF NOT EXISTS `animalia_bot` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `animalia_bot`;
 
 -- --------------------------------------------------------
 
@@ -31,16 +33,27 @@ CREATE TABLE `players` (
   `steam_id` varchar(255) NOT NULL,
   `discord_id` varchar(255) DEFAULT NULL,
   `coins` int(11) DEFAULT NULL,
-  `animals` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`animals`))
+  `animals` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`animals`)),
+  `last_work_time` datetime DEFAULT NULL,
+  `coins_received` tinyint(4) NOT NULL DEFAULT 0,
+  `last_voice_time` datetime DEFAULT NULL,
+  `voice_start_time` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Extraindo dados da tabela `players`
+-- Acionadores `players`
 --
-
-INSERT INTO `players` (`steam_id`, `discord_id`, `coins`, `animals`) VALUES
-('76561198286908053', '550014074201833495', 133499533, NULL),
-('76561199346987549', '690784176416489503', 79713, '{\"Lion\": {\"name\": \"Lion\", \"price\": 30000, \"quantity\": 1, \"genders\": [{\"gender\": \"M\", \"quantity\": 1}]}}');
+DELIMITER $$
+CREATE TRIGGER `award_coins_after_link` AFTER UPDATE ON `players` FOR EACH ROW BEGIN
+    IF NEW.coins_received = 1 AND OLD.coins_received = 0 THEN
+        -- Award 75k coins to the user's balance
+        UPDATE players
+        SET coins = coins + 75000
+        WHERE discord_id = NEW.discord_id;
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -67,13 +80,6 @@ CREATE TABLE `warnings` (
   `reason` varchar(255) DEFAULT NULL,
   `warning_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `warnings`
---
-
-INSERT INTO `warnings` (`id`, `player_id`, `reason`, `warning_date`) VALUES
-(12, '550014074201833495', 'why the fuck not right?', '2023-11-07');
 
 --
 -- Índices para tabelas despejadas
@@ -105,13 +111,13 @@ ALTER TABLE `warnings`
 -- AUTO_INCREMENT de tabela `strikes`
 --
 ALTER TABLE `strikes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de tabela `warnings`
 --
 ALTER TABLE `warnings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
