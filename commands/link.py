@@ -5,7 +5,7 @@ class link(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.steam_api_key = os.getenv("STEAM_API_KEY")
-        self.coins_on_link = int(os.getenv("COINS_ON_ACC_LINK", 75000))
+        self.coins_on_link = int(os.getenv("COINS_ON_ACC_LINK"))
 
     @commands.hybrid_command(name="link", description="Link your steam account", with_app_command=True)
     @commands.check(in_animal_shop)
@@ -91,7 +91,7 @@ class link(commands.Cog):
                         if str(reaction.emoji) == "✅":
                             # Connect to the database
                             db = mysql.connector.connect(
-                                host="localhost", user="root", password="", database="reborn_legends"
+                                host=os.getenv("DATABASE_HOST"), user=os.getenv("DATABASE_USER"), password=os.getenv("DATABASE_PW"), database=os.getenv("DATABASE_NAME")
                             )
 
                             # Create a cursor object to interact with the database
@@ -110,13 +110,13 @@ class link(commands.Cog):
                                 if existing_steam_id == steam_id and coins_received == 0:
                                     # Update the database with the new Steam ID and set coins_received to 1
                                     cursor.execute(
-                                        "UPDATE players SET steam_id = %s, coins_received = 1, coins = {self.coins_on_link} WHERE discord_id = %s", (steam_id, discord_id)
+                                        f"UPDATE players SET steam_id = %s, coins_received = 1, coins = {self.coins_on_link} WHERE discord_id = %s", (steam_id, discord_id)
                                     )
                                     db.commit()
 
                                     embed = discord.Embed(
                                         title="Animalia Survial 🤖",
-                                        description="Your account has been successfully linked! You received 75,000 coins!",
+                                        description=f"Your account has been successfully linked! You received {self.coins_on_link} coins!",
                                         color=0x00FF00,
                                     )
 
@@ -143,14 +143,14 @@ class link(commands.Cog):
                             # If the discord_id does not exist, create a new row in the database
                             else:
                                 cursor.execute(
-                                    "INSERT INTO players (discord_id, steam_id, coins_received, coins) VALUES (%s, %s, 1, 75000)",
+                                    f"INSERT INTO players (discord_id, steam_id, coins_received, coins) VALUES (%s, %s, 1, {self.coins_on_link})",
                                     (discord_id, steam_id),
                                 )
                                 db.commit()
                                 
                                 embed = discord.Embed(
                                     title="Animalia Survial 🤖",
-                                    description="Your account has been successfully linked! You received 75,000 coins!",
+                                    description=f"Your account has been successfully linked! You received {self.coins_on_link} coins!",
                                     color=0x00FF00,
                                 )
                                 

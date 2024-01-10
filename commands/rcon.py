@@ -23,7 +23,6 @@ class GameServer(commands.Cog):
     ) -> List[app_commands.Choice[str]]:
         rcon_commands = {
             'Help',
-            'Say',
             'Time',
             'Day',
             'Night',

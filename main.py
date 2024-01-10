@@ -39,6 +39,7 @@ async def update_presence():
     # Update bot's presence with the formatted string
     await bot.change_presence(activity=discord.Game(name=formatted_presence))
     print('Bot presence updated')
+    print(formatted_presence)
 
 async def main():
     await load()

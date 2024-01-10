@@ -102,7 +102,7 @@ animals = {
 
 # Connect to the database
 db = mysql.connector.connect(
-    host="localhost", user="root", password="", database="reborn_legends"
+    host="localhost", user="root", password="", database="animalia_bot"
 )
 
 # Where the bot can be used
@@ -120,46 +120,9 @@ def object_hook(d):
             d[key] = tuple(value)
     return d
 
-# def get_player_data(discord_id):
-#     db = mysql.connector.connect(
-#         host="localhost", user="root", password="", database="reborn_legends"
-#     )
-#     cursor = db.cursor(dictionary=True)
-
-#     try:
-#         cursor.execute("SELECT * FROM players WHERE discord_id = %s", (discord_id,))
-#         result = cursor.fetchone()
-#         cursor.close()
-#         db.close()
-
-#         if result is None:
-#             return None
-
-#         last_work_time = result.get("last_work_time", datetime.min)
-#         voice_start_time = result.get("voice_start_time", datetime.min)
-#         last_voice_time = result.get("last_voice_time", datetime.min)
-
-#         player_data = {
-#             "steam_id": result["steam_id"],
-#             "discord_id": result["discord_id"],
-#             "coins": result["coins"],
-#             "animals": result["animals"],
-#             "last_work_time": last_work_time,
-#             "voice_start_time": voice_start_time,
-#             "last_voice_time": last_voice_time,
-#         }
-
-#         print(f"DEBUG: {discord_id} has {player_data['coins']} coins.")
-#         return player_data
-
-#     except mysql.connector.Error as e:
-#         print(f"DEBUG: Error during database query: {e}")
-#         return None
-
-
 def get_player_data(discord_id):
     db = mysql.connector.connect(
-        host="localhost", user="root", password="", database="reborn_legends"
+        host=os.getenv("DATABASE_HOST"), user=os.getenv("DATABASE_USER"), password=os.getenv("DATABASE_PW"), database=os.getenv("DATABASE_NAME")
     )
     cursor = db.cursor(dictionary=True)
 
@@ -196,7 +159,7 @@ def get_player_data(discord_id):
 
 def save_player_data(discord_id, player_data):
     db = mysql.connector.connect(
-        host="localhost", user="root", password="", database="reborn_legends"
+        host=os.getenv("DATABASE_HOST"), user=os.getenv("DATABASE_USER"), password=os.getenv("DATABASE_PW"), database=os.getenv("DATABASE_NAME")
     )
     cursor = db.cursor()
 
@@ -229,7 +192,7 @@ def clear_player_animals(discord_id):
 
     # Clear the player's animal inventory in the database
     db = mysql.connector.connect(
-        host="localhost", user="root", password="", database="reborn_legends"
+        host=os.getenv("DATABASE_HOST"), user=os.getenv("DATABASE_USER"), password=os.getenv("DATABASE_PW"), database=os.getenv("DATABASE_NAME")
     )
     cursor = db.cursor()
     cursor.execute("UPDATE players SET animals = NULL WHERE discord_id = %s", (discord_id,))
@@ -240,7 +203,7 @@ def clear_player_animals(discord_id):
 # Function to retrieve animals data from the database
 def get_player_animals(discord_id):
     db = mysql.connector.connect(
-        host="localhost", user="root", password="", database="reborn_legends"
+        host=os.getenv("DATABASE_HOST"), user=os.getenv("DATABASE_USER"), password=os.getenv("DATABASE_PW"), database=os.getenv("DATABASE_NAME")
     )
     cursor = db.cursor()
     cursor.execute("SELECT animals FROM players WHERE discord_id = %s", (discord_id,))

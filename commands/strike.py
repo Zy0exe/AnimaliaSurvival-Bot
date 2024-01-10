@@ -6,11 +6,37 @@ class strike_player(commands.Cog):
         self.bot = bot
         self.superuser = int(os.getenv("SUPER_USER_ID"))
         self.adminrole = int(os.getenv("ADMIN_ROLE_ID"))
+        self.strike_chat = os.getenv("STRIKE_CHAT")
+        self.rcon_host = os.getenv("RCON_ADDRESS")
+        self.rcon_port = os.getenv("RCON_PORT")
+        self.rcon_passwd = os.getenv("RCON_PW")
+
+    async def send_strike_message(self, player):
+        print("Strike channel ID:", self.strike_chat)
+        channel_id = int(self.strike_chat)
+        strike_channel = self.bot.get_channel(channel_id)
+
+        if strike_channel:
+            print("Strike channel:", strike_channel)
+
+            embed = discord.Embed(
+                title="Strike Report",
+                description=(
+                    f"{player.mention},\n\n"
+                    f"{player.display_name} / {player.id} you have been reported to staff for a rule violation.\n"
+                    f"To appeal this strike, have your recordings ready and [open a Blue Ticket](https://discord.com/channels/1181029094822006857/1183107878924583064).\n\n"
+                    f"All strikes are appealable, but you must do so within 48hrs.\n\n"
+                    f"Strikes fall off after 14 days.\n\n"
+                ),
+                color=0xFF0000, 
+            )
+
+            await strike_channel.send(embed=embed)
+        else:
+            print("Strike channel not found")
 
     @commands.hybrid_command(name="strike_player", description="Display server information", with_app_command=True, aliases=['strike'])
     async def strike_player(self, ctx, player: discord.Member = None, *, reason: str = None):
-        # Adds a strike to a player's record and bans them if they have 3 strikes.
-        # Check if the user invoking the command has the required permissions
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
             embed = discord.Embed(
                 title="Animalia Survial 🤖",
@@ -59,20 +85,45 @@ class strike_player(commands.Cog):
         result = cursor.fetchone()
         strike_count = result[0]
 
-        if strike_count == 3:
-            # Ban the player and add their Steam ID to the banlist.txt file
-            with open("C:/Reborn Legends/animalia/AnimaliaSurvival/banlist.txt", "a") as f:
-                f.write(steam_id + "\n")
+        # Send a strike message to the specified channel
+        await self.send_strike_message(player)
 
-            embed = Embed(
-                description=f"{player.display_name} has been banned for reaching 3 strikes."
+        if strike_count == 3:
+            rcon_command = f"Ban.PlayerID {steam_id}"
+
+            # Execute the Rcon command
+            response = await rcon(
+                rcon_command,
+                host=self.rcon_host,
+                port=self.rcon_port,
+                passwd=self.rcon_passwd
             )
-            return await ctx.send(embed=embed)
+
+            # Check the response from Rcon
+            if "Ban.PlayerID:Ban" in response:
+                Banned_embed = discord.Embed(
+                    title="Animalia Survival 🤖",
+                    description=f"Player with Steam ID {steam_id} has been banned for reaching 3 strikes.",
+                    color=0x00FF00,
+                )
+                Banned_embed.set_footer(text="Player Banned")
+                await ctx.send(embed=Banned_embed, ephemeral=True)
+            else:
+                Error_embed = discord.Embed(
+                    title="Animalia Survival 🤖",
+                    description=f"Failed to ban player with Steam ID {steam_id}. Error: {response}",
+                    color=0xFF0000,
+                )
+                Error_embed.set_footer(text="rcon error contact bot developer")
+                await ctx.send(embed=Error_embed, ephemeral=True)
         else:
-            embed = Embed(
-                description=f"{player.display_name} has been given a strike. They now have {strike_count} strikes."
+            # If the player doesn't reach 3 strikes, inform about the strike count
+            embed = discord.Embed(
+                description=f"{player.display_name} has been given a strike. They now have {strike_count} strikes.",
+                color=0x00FF00,
             )
-            return await ctx.send(embed=embed)
+            await ctx.send(embed=embed)
+
 
 async def setup(bot):
     await bot.add_cog(strike_player(bot))

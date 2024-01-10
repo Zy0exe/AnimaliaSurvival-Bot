@@ -74,6 +74,17 @@ class Pay(commands.Cog):
             )
             await ctx.send(embed=embed)
             return
+        
+         # Check if the user has a valid entry in the database
+        player_data = get_player_data(member.id)
+        if player_data is None:
+            embed = discord.Embed(
+                title="Animalia Survial 🤖",
+                description="That user hasn't linked their steam profile.",
+                color=0xFF0000,
+            )
+            await ctx.send(embed=embed)
+            return
 
         # Subtract coins from the sender's balance
         cursor.execute(

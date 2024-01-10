@@ -85,5 +85,82 @@ class TpCog(commands.Cog):
             )
             await ctx.send(embed=embed, ephemeral=True)
 
+class TpAllCog(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        self.superuser = int(os.getenv("SUPER_USER_ID"))
+        self.adminrole = int(os.getenv("ADMIN_ROLE_ID"))
+
+    @commands.hybrid_command(name="tpall", description="Teleports all players to a specified coordinates", with_app_command=True)
+    @commands.check(in_animal_shop)
+    async def tpall(self, ctx, x: float, y: float, z: float):
+        """
+        Teleports all players to a specified coordinates.
+
+        :param x: The X-coordinate to teleport the player to.
+        :param y: The Y-coordinate to teleport the player to.
+        :param z: The Z-coordinate to teleport the player to.
+        """
+         
+        # Check if the user has permission to use the command
+        if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
+            embed = discord.Embed(
+                title="Animalia Survial 🤖",
+                description="Insufficient Permissions. You need the required roles to use this command.",
+                color=0xFF0000,
+            )
+            await ctx.send(embed=embed)
+            return
+
+        # Ask the admin to confirm the teleport
+        embed = discord.Embed(
+            title="Teleport Confirmation",
+            description=f"Are you sure you want to teleport all the players to coordinates ({x}, {y}, {z})? React with \u2705 to confirm or \u274c to cancel.",
+            color=discord.Color.blue(),
+        )
+        confirmation_message = await ctx.send(embed=embed)
+        await confirmation_message.add_reaction("\u2705")  # Check mark
+        await confirmation_message.add_reaction("\u274c")  # X mark
+
+        # Wait for the admin to react
+        def check(reaction, user):
+            return user == ctx.author and str(reaction.emoji) in ["\u2705", "\u274c"]
+        reaction, _ = await self.bot.wait_for("reaction_add", check=check)
+
+        # If the admin confirmed the teleport, use the Rcon command
+        if str(reaction.emoji) == "\u2705":
+            rcon_command = f"tp.All {x} {y} {z}"
+            response = await rcon(
+                rcon_command,
+                host=os.getenv("RCON_ADDRESS"),
+                port=os.getenv("RCON_PORT"),
+                passwd=os.getenv("RCON_PW")
+            )
+
+            if not response:
+                embed = discord.Embed(
+                    title="Animalia Survival 🤖",
+                    description=f"All Players have been teleported to ({x}, {y}, {z}).",
+                    color=0x00FF00,
+                )
+                await ctx.send(embed=embed, ephemeral=True)
+            else:
+                embed = discord.Embed(
+                    title="Animalia Survival 🤖",
+                    description=f"Failed to teleport everyone. Error: {response}",
+                    color=0xFF0000,
+                )
+                await ctx.send(embed=embed, ephemeral=True)
+
+        # Otherwise, cancel the teleport
+        else:
+            embed = discord.Embed(
+                title="Animalia Survival 🤖",
+                description=f"Global TP cancelled.",
+                color=0x00FF00,
+            )
+            await ctx.send(embed=embed, ephemeral=True)
+
 async def setup(bot):
     await bot.add_cog(TpCog(bot))
+    await bot.add_cog(TpAllCog(bot))

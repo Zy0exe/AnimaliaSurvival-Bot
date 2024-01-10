@@ -150,7 +150,7 @@ class inject(commands.Cog):
 
         # Check if the player has linked their Steam ID
         db = mysql.connector.connect(
-            host="localhost", user="root", password="", database="reborn_legends"
+            host=os.getenv("DATABASE_HOST"), user=os.getenv("DATABASE_USER"), password=os.getenv("DATABASE_PW"), database=os.getenv("DATABASE_NAME")
         )
         cursor = db.cursor()
         discord_id = ctx.author.id
