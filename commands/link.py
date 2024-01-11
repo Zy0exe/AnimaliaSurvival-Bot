@@ -91,7 +91,7 @@ class link(commands.Cog):
                         if str(reaction.emoji) == "✅":
                             # Connect to the database
                             db = mysql.connector.connect(
-                                host=os.getenv("DATABASE_HOST"), user=os.getenv("DATABASE_USER"), password=os.getenv("DATABASE_PW"), database=os.getenv("DATABASE_NAME")
+                                host="localhost", user="root", password="", database="animalia_bot"
                             )
 
                             # Create a cursor object to interact with the database

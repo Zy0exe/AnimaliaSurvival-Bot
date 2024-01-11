@@ -9,7 +9,7 @@ class shop(commands.Cog):
     @commands.check(in_animal_shop)
     async def shop(self, ctx):
         db = mysql.connector.connect(
-           host=os.getenv("DATABASE_HOST"), user=os.getenv("DATABASE_USER"), password=os.getenv("DATABASE_PW"), database=os.getenv("DATABASE_NAME")
+           host="localhost", user="root", password="", database="animalia_bot"
         )
 
         cursor = db.cursor()

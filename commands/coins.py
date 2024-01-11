@@ -10,7 +10,7 @@ class coins(commands.Cog):
         try:
             # Get the user's balance from the database
             db = mysql.connector.connect(
-                host=os.getenv("DATABASE_HOST"), user=os.getenv("DATABASE_USER"), password=os.getenv("DATABASE_PW"), database=os.getenv("DATABASE_NAME")
+                host="localhost", user="root", password="", database="animalia_bot"
             )
             cursor = db.cursor()
             cursor.execute(

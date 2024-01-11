@@ -51,7 +51,7 @@ class collect(commands.Cog):
 
             # Update the user's balance in the database
             db = mysql.connector.connect(
-                host=os.getenv("DATABASE_HOST"), user=os.getenv("DATABASE_USER"), password=os.getenv("DATABASE_PW"), database=os.getenv("DATABASE_NAME")
+                host="localhost", user="root", password="", database="animalia_bot"
             )
             cursor = db.cursor()
             current_balance = player_data.get("coins", 0)
