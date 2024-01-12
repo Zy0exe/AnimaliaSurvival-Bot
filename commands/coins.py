@@ -8,6 +8,16 @@ class coins(commands.Cog):
     @commands.hybrid_command(name="wallet", description="Shows the amount of coins", with_app_command=True)
     async def wallet(self, ctx):
         try:
+            player_data = get_player_data(ctx.author.id)
+            if player_data is None or player_data["steam_id"] is None:
+                embed = discord.Embed(
+                    title="Animalia Survial 🤖",
+                    description=f"{ctx.author.mention}, you need to link your Steam ID first using the !link command.",
+                    color=0xFF0000,
+                )
+                await ctx.send(embed=embed)
+                return
+            
             # Get the user's balance from the database
             db = mysql.connector.connect(
                 host="localhost", user="root", password="", database="animalia_bot"

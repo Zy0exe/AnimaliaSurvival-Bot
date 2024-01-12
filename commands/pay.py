@@ -2,9 +2,6 @@ from functions import *
 from import_lib import *
 import datetime
 
-# Load environment variables from .env
-load_dotenv()
-
 webhook_env = os.getenv("PAY_WEBHOOK")
 
 # Add this function for logging transactions

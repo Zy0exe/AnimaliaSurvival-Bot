@@ -26,26 +26,26 @@ class help(commands.Cog):
     @commands.check(in_animal_shop)
     async def help(self, ctx):
         data = [
-            {"name": "!link [steam_id]", "value": "Link your Steam account to your Discord account."},
-            {"name": "!pay", "value": "Give coins to other players."},
-            {"name": "!coins", "value": "See your coins."},
-            {"name": "!shop", "value": "Display the available animals for purchase."},
-            {"name": "!buy [animal] [gender]", "value": "Buy an animal from the shop."},
-            {"name": "!inject [animal] [slot]", "value": "Inject an animal into the game using a specified slot."},
-            {"name": "!cage", "value": "Display your current balance and owned animals."},
+            {"name": "/link [steam_id]", "value": "Link your Steam account to your Discord account."},
+            {"name": "/pay [user] [amount]", "value": "Give coins to other players."},
+            {"name": "/wallet", "value": "See your coins."},
+            {"name": "/shop", "value": "Display the available animals for purchase."},
+            {"name": "/buy [animal] [gender]", "value": "Buy an animal from the shop."},
+            {"name": "/inject [animal] [gender] [slot] [location]", "value": "Inject an animal into the game using a specified slot."},
+            {"name": "/cage", "value": "Display your current balance and owned animals."},
         ]
 
         admin_role_id = 1183103584330588180
         if discord.utils.get(ctx.author.roles, id=admin_role_id) is not None:
             admin_data = [
-                {"name": "!player", "value": "See your/other player info."},
-                {"name": "!addcoins [user] [amount]", "value": "Add coins to a user's balance."},
-                {"name": "!removecoins [user] [amount]", "value": "Remove coins from a user's balance."},
-                {"name": "!addadmin [user]", "value": "Give admin privileges to a user in-game."},
-                {"name": "!removeadmin [user]", "value": "Remove admin privileges from a user in-game."},
-                {"name": "!clearcage [user]", "value": "Clear a player's cage."},
-                {"name": "!strike [user] [reason]", "value": "Give a strike to a player (2 strikes results in a ban)."},
-                {"name": "!warn [user] [reason]", "value": "Give a warning to a player (2 warnings result in a strike)."},
+                {"name": "/player", "value": "See your/other player info."},
+                {"name": "/addcoins [user] [amount]", "value": "Add coins to a user's balance."},
+                {"name": "/removecoins [user] [amount]", "value": "Remove coins from a user's balance."},
+                {"name": "/addadmin [user]", "value": "Give admin privileges to a user in-game."},
+                {"name": "/removeadmin [user]", "value": "Remove admin privileges from a user in-game."},
+                {"name": "/clearcage [user]", "value": "Clear a player's cage."},
+                {"name": "/strike [user] [reason] [offense_level]", "value": "Give a strike to a player (2 strikes results in a ban)."},
+                {"name": "/warn [user] [reason]", "value": "Give a warning to a player (2 warnings result in a strike)."},
             ]
             
             data.extend(admin_data)

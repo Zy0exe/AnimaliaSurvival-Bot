@@ -9,9 +9,27 @@ class warn_player(commands.Cog):
         self.adminrole = int(os.getenv("ADMIN_ROLE_ID"))
         self.modrole   = int(os.getenv("MOD_ROLE_ID"))
 
-    @commands.hybrid_command(name="warn", description="Warn a user", with_app_command=True)
-    async def warn_player(self, ctx, player: discord.Member = None, *, reason: str = None):
+    async def offense_autocomplete(
+        self,
+        ctx,
+        current: str,
+    ) -> List[app_commands.Choice[str]]:
+        levels = ['1', '2', '3']
+        return [
+            app_commands.Choice(name=offense_level, value=offense_level)
+            for offense_level in levels if current.lower() in offense_level.lower()
+        ]
 
+    @commands.hybrid_command(name="warn", description="Warn a user", with_app_command=True)
+    @app_commands.autocomplete(offense_level=offense_autocomplete)
+    async def warn_player(self, ctx, player: discord.Member = None, *, reason: str = None, offense_level: int = 1):
+        """
+        Warn a Player.
+
+        :param player: user to warn.
+        :param reason: the reason of the warning.
+        :param offense_level: The level of the offense.
+        """
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
             embed = discord.Embed(
                 title="Animalia Survial 🤖",
@@ -44,6 +62,14 @@ class warn_player(commands.Cog):
                 color=0x2ECC71,
             )
             return await ctx.send(embed=embed)
+        
+        if offense_level is None:
+            embed = discord.Embed(
+                title="Animalia Survial 🤖",
+                description="You need to specify a offense level!",
+                color=0x2ECC71,
+            )
+            return await ctx.send(embed=embed)
 
         # Check if the player is already banned
         banlist_path = os.getenv("BANLIST_PATH")
@@ -59,10 +85,11 @@ class warn_player(commands.Cog):
             return await ctx.send(embed=embed)
 
         # Insert warning into the database
-        sql = "INSERT INTO warnings (player_id, reason, warning_date) VALUES (%s, %s, %s)"
-        val = (str(player.id), reason, (datetime.today()).date())
-        cursor.execute(sql, val)
-        db.commit()
+        for _ in range(offense_level):
+            sql = "INSERT INTO warnings (player_id, reason, warning_date) VALUES (%s, %s, %s)"
+            val = (str(player.id), reason, (datetime.today()).date())
+            cursor.execute(sql, val)
+            db.commit()
 
         # Get the number of warnings the player has
         cursor.execute(

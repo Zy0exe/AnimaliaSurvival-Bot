@@ -30,7 +30,7 @@ class cage(commands.Cog):
             if data.get("quantity", 0) < 0:
                 data["quantity"] = 0
 
-        inventory_embed = Embed(title=f"{ctx.author.display_name}'s Cage")
+        inventory_embed = Embed(title=f"{ctx.author.display_name}'s Cage", color=discord.Color.dark_gold())
         inventory_embed.add_field(name="Animals", value="\u200b", inline=False)
 
         if player_animals:

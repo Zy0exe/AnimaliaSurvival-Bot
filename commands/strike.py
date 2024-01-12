@@ -1,5 +1,6 @@
 from functions import *
 from import_lib import *
+import datetime
 
 class strike_player(commands.Cog):
     def __init__(self, bot):
@@ -10,6 +11,7 @@ class strike_player(commands.Cog):
         self.rcon_host = os.getenv("RCON_ADDRESS")
         self.rcon_port = os.getenv("RCON_PORT")
         self.rcon_passwd = os.getenv("RCON_PW")
+        self.webhook = os.getenv("STRIKEBAN_WEBHOOK")
 
     async def send_strike_message(self, player):
         print("Strike channel ID:", self.strike_chat)
@@ -34,9 +36,33 @@ class strike_player(commands.Cog):
             await strike_channel.send(embed=embed)
         else:
             print("Strike channel not found")
+    
+    def send_to_webhook(self, player_banned, playerbanned_id):
+            webhook_url = self.webhook
+            timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    @commands.hybrid_command(name="strike_player", description="Display server information", with_app_command=True, aliases=['strike'])
+            embed = {
+                "title": "Ban Log",
+                "color": 0xFF0000,  # Red color for ban action
+                'description': f"The user {player_banned} with Steam ID {playerbanned_id} has been banned for reaching for strikes.",
+                "timestamp": timestamp,
+            }
+
+            payload = {
+                "embeds": [embed],
+                "username": "Ban Logger",
+            }
+
+            requests.post(webhook_url, json=payload)
+
+    @commands.hybrid_command(name="strike", description="Strike a Player.", with_app_command=True)
     async def strike_player(self, ctx, player: discord.Member = None, *, reason: str = None):
+        """
+        Strike a Player.
+
+        :param player: user to warn.
+        :param reason: the reason of the warning.
+        """
         if not any(role.id in {self.superuser, self.adminrole} for role in ctx.author.roles):
             embed = discord.Embed(
                 title="Animalia Survial 🤖",
@@ -101,6 +127,10 @@ class strike_player(commands.Cog):
 
             # Check the response from Rcon
             if "Ban.PlayerID:Ban" in response:
+                self.send_to_webhook(
+                    player.display_name,
+                    steam_id,
+                )
                 Banned_embed = discord.Embed(
                     title="Animalia Survival 🤖",
                     description=f"Player with Steam ID {steam_id} has been banned for reaching 3 strikes.",

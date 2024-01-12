@@ -58,6 +58,16 @@ class buy(commands.Cog):
             )
             await ctx.send(embed=embed)
             return
+        
+                
+        if gender is None:
+            embed = discord.Embed(
+                title="Animalia Survial 🤖",
+                description="You need to specify a gender to buy.",
+                color=0xFF0000,
+            )
+            await ctx.send(embed=embed)
+            return
 
         # Check if the animal exists
         if animal not in animals:
